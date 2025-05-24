@@ -1,0 +1,53 @@
+body {
+  margin: 0; /* 背景叠加半透明白色渐变层提升文字可读性 */
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
+    url("dt.png");
+  background-size: cover; /* 背景图覆盖整个区域 */
+  background-position: center; /* 背景图居中显示 */
+  background-repeat: no-repeat; /* 禁止背景图重复 */
+  background-attachment: fixed; /* 固定背景图位置 */
+  min-height: 100vh; /* 最小高度充满视口 */
+}
+header {
+  display: flex;
+  margin: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+p {
+  margin: 0;
+  display: inline-block;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.top-box-l {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.479);
+  width: 60%;
+  margin: 0;
+  padding-left: 10px;
+}
+.top-box-r {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.479);
+  padding: 30px;
+  margin: 0;
+  width: 40%;
+}
+.announcement {
+  background-color: rgba(255, 255, 255, 0.479);
+  border-radius: 15px;
+  padding: 5px;
+  margin: 20px;
+}
+.card {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.479);
+  border-radius: 15px;
+  padding: 5px;
+  margin: 20px;
+}
+.document-center {
+  float: right;
+}
