@@ -1,5 +1,6 @@
 {
   "liveServer.settings.port": 5503,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "livePreview.defaultPreviewPath": "/7.html"
 }

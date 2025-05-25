@@ -76,13 +76,16 @@ a {
   margin: 10px;
   float: right;
 }
-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.479);
-  padding: 10px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+.footer {
+  background: var(--background-color); /* 背景色 */
+  padding: 2rem; /* 内边距 */
+  text-align: center; /* 文字居中 */
+  margin-top: 3rem; /* 顶部外边距 */
+  border-top: 1px solid #eee; /* 顶部边框 */
+}
+
+.footer p {
+  margin: 0.5rem 0; /* 段落间距 */
+  color: #666; /* 文字颜色 */
+  font-size: 0.9em; /* 字号调整 */
 }
