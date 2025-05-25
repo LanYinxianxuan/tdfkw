@@ -1,88 +1,135 @@
+:root {
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --header-bg: rgba(255, 255, 255, 0.6);
+  --main-padding: 20px;
+}
 body {
-  margin: 0; /* 背景叠加半透明白色渐变层提升文字可读性 */
-  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
-    url("dt.png");
-  background-size: cover; /* 背景图覆盖整个区域 */
-  background-position: center; /* 背景图居中显示 */
-  background-repeat: no-repeat; /* 禁止背景图重复 */
-  background-attachment: fixed; /* 固定背景图位置 */
-  min-height: 100vh; /* 最小高度充满视口 */
+  margin: 0;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    url("dt.png") center/cover no-repeat fixed;
+  min-height: 100vh;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  color: #222;
 }
 header {
   margin: 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background-color: rgba(255, 255, 255, 0.479);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  background-color: var(--header-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  height: 80px;
 }
-p {
+.top-box-l h2 {
   margin: 0;
-  display: inline-block;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+}
+.top-box-r {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+  margin: 0;
+  width: auto;
+}
+.top-box-r > div {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.top-box-r p {
+  margin: 0 0 0 4px;
+  font-size: 0.98em;
+  display: inline;
 }
 a {
   text-decoration: none;
-  color: black;
+  color: #222;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
 }
-.top-box-l {
-  display: inline-block;
-  margin: 0;
-  padding-left: 10px;
-}
-.top-box-r {
-  float: right;
-  padding-top: 15px;
-  margin: 0;
-  width: 40%;
+a:hover {
+  color: #1976d2;
 }
 .announcement {
-  background-color: rgba(255, 255, 255, 0.479);
+  background-color: var(--card-bg);
   border-radius: 15px;
-  padding: 5px;
-  margin: 20px;
+  padding: var(--main-padding);
+  margin: 30px 30px 0 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.announcement h1 {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
 }
 .card {
-  display: inline-block;
-  background-color: rgba(255, 255, 255, 0.479);
+  display: block;
+  background-color: var(--card-bg);
   border-radius: 15px;
-  padding: 5px;
-  margin: 20px;
+  padding: var(--main-padding);
+  margin: 20px 30px 0 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
-.document-center {
-  margin: 10px;
-  float: right;
+.card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.15rem;
 }
-.github {
-  margin: 10px;
-  float: right;
-}
-.download {
-  margin: 10px;
-  float: right;
-}
-.qq {
-  margin: 10px;
-  float: right;
-}
-.login {
-  margin: 10px;
-  float: right;
-}
-.question {
-  margin: 10px;
-  float: right;
-}
+.document-center,
+.github,
+.download,
+.qq,
+.login,
+.question,
 .about {
-  margin: 10px;
-  float: right;
+  margin: 0 4px;
+  float: none;
+  padding: 0;
 }
 .footer {
-  background: var(--background-color); /* 背景色 */
-  padding: 2rem; /* 内边距 */
-  text-align: center; /* 文字居中 */
-  margin-top: 3rem; /* 顶部外边距 */
-  border-top: 1px solid #eee; /* 顶部边框 */
+  background: var(--header-bg);
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-top: 3rem;
+  border-top: 1px solid #eee;
+  font-size: 0.98em;
 }
-
 .footer p {
-  margin: 0.5rem 0; /* 段落间距 */
-  color: #000000; /* 文字颜色 */
-  font-size: 0.9em; /* 字号调整 */
+  margin: 0.5rem 0;
+  color: #000;
+  font-size: 0.95em;
+}
+@media (max-width: 800px) {
+  .announcement,
+  .card {
+    max-width: 98vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
+  }
+  .top-box-r {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 6px;
+  }
+}
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 4px;
+  }
+  .top-box-l h2 {
+    font-size: 1.2rem;
+  }
+  .top-box-r {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 4px;
+    padding-top: 2px;
+  }
 }
