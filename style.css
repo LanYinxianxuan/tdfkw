@@ -83,6 +83,6 @@ a {
 
 .footer p {
   margin: 0.5rem 0; /* 段落间距 */
-  color: #666; /* 文字颜色 */
+  color: #000000; /* 文字颜色 */
   font-size: 0.9em; /* 字号调整 */
 }
