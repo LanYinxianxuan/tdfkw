@@ -49,5 +49,40 @@ a {
   margin: 20px;
 }
 .document-center {
+  margin: 10px;
   float: right;
+}
+.github {
+  margin: 10px;
+  float: right;
+}
+.download {
+  margin: 10px;
+  float: right;
+}
+.qq {
+  margin: 10px;
+  float: right;
+}
+.login {
+  margin: 10px;
+  float: right;
+}
+.question {
+  margin: 10px;
+  float: right;
+}
+.about {
+  margin: 10px;
+  float: right;
+}
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.479);
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
