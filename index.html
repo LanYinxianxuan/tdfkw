@@ -142,6 +142,32 @@
     <h3 style="text-align: center">服务器信息</h3>
     <hr />
     <ul>
+          <div id="status">
+        <h2>服务器状态加载中...</h2>
+    </div>
+    <script>
+        // 替换为你的服务器 IP 和端口
+        const serverIP = "aam.rainplay.cn";
+        const serverPort = 24750;
+
+        fetch(`https://api.mcsrvstat.us/3/${serverIP}:${serverPort}`)
+            .then(response => response.json())
+            .then(data => {
+                const statusDiv = document.getElementById("status");
+                if (data.online) {
+                    statusDiv.innerHTML = `
+                        <h2>服务器地址：${serverIP} <br>服务器状态: <span style="color:green">在线</span></h2>
+                        <li><strong>玩家: ${data.players.online}/${data.players.max}</li>
+                        <li><strong>版本: ${data.version}</li>
+                    `;
+                } else {
+                    statusDiv.innerHTML = `<h2>状态: <span style="color:red">离线</span></h2>`;
+                }
+            })
+            .catch(error => {
+                console.error("请求出错:", error);
+            });
+    </script>
       <li><strong>服务器地址：</strong>mc.tangdoufangkuaiwu.top</li>
       <li><strong>版本：</strong>Minecraft 1.20.4 Fabric</li>
       <li>
