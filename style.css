@@ -9,7 +9,7 @@ body {
       rgba(255, 255, 255, 0.1),
       rgba(255, 255, 255, 0.1)
     ),
-    url("dt.png") center/cover no-repeat fixed;
+    url("picture/dt.png") center/cover no-repeat fixed;
   min-height: 100vh;
   font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
   color: #222;
