@@ -137,20 +137,6 @@
       </p>Rainyun提供</p>
     </a>
     <p>官网正在维护中ing...，有什么建议可以提出来或者一起开发。</p>
-    <svg t="1748169261853" class="icon" viewBox="0 0 1024 1024" version="1.1"
-      xmlns="http://www.w3.org/2000/svg" p-id="4367" width="15" height="15">
-      <path
-        d="M855.866698 106.426915c0 23.451108-19.010983 42.463114-42.463114 42.463114L203.435319 148.890029c-23.451108 0-42.463114-19.010983-42.463114-42.463114l0 0c0-23.451108 19.010983-42.463114 42.463114-42.463114l609.968266 0C836.855716 63.963801 855.866698 82.974783 855.866698 106.426915L855.866698 106.426915zM511.826038 264.35069c-23.451108 0-42.463114 19.010983-42.463114 42.463114l0 609.968266c0 23.451108 19.010983 42.463114 42.463114 42.463114l0 0c23.451108 0 42.463114-19.010983 42.463114-42.463114L554.289152 306.812781C554.288129 283.361673 535.277146 264.35069 511.826038 264.35069L511.826038 264.35069zM541.961382 233.023194c-16.582677-16.582677-42.517349-17.534352-57.927317-2.124384L171.253362 543.67849c-15.408945 15.408945-14.458293 41.343617 2.124384 57.926294l0 0c16.582677 16.582677 42.517349 17.534352 57.926294 2.124384L544.085766 290.949488C559.494711 275.540544 558.544059 249.605871 541.961382 233.023194L541.961382 233.023194zM481.696834 233.023194c-16.582677 16.582677-17.534352 42.517349-2.124384 57.926294l312.780703 312.780703c15.408945 15.408945 41.343617 14.458293 57.926294-2.124384l0 0c16.582677-16.582677 17.534352-42.517349 2.124384-57.926294L539.623128 230.897787C524.214183 215.488843 498.27951 216.440517 481.696834 233.023194L481.696834 233.023194z"
-        fill="#000000" p-id="4368"></path>
-    </svg>
-    本服务器域名由
-    <a href="https://app.rainyun.com/" target="_blank" rel="noopener"
-      style="display: inline-flex; align-items: center; gap: 4px">
-      <img src="https://app.rainyun.com/img/logo.d193755d.png" alt="Rainyun"
-        style="height: 18px; vertical-align: middle; margin-right: 2px" />
-      <p>Rainyun提供</p>
-    </a>
-    <p>官网正在维护中ing，有什么建议可以提出来或者一起开发。</p>
   </div>
   <section class="card server-info">
     <h3 style="text-align: center">服务器信息</h3>
@@ -165,20 +151,20 @@
         const serverPort = 24750;
 
         fetch(`https://api.mcsrvstat.us/3/${serverIP}:${serverPort}`)
-          .then(response => response.json())
-          .then(data => {
+          。then(response => response.json())
+          。then(data => {
             const statusDiv = document.getElementById("status");
             if (data.online) {
               statusDiv.innerHTML = `
                         <h2>服务器地址：${serverIP} <br>服务器状态: <span style="color:green">在线</span></h2>
-                        <li><strong>玩家: ${data.players.online}/${data.players.max}</li>
-                        <li><strong>版本: ${data.version}</li>
+                        <li><strong>玩家: ${data。players.online}/${data.players.max}</li>
+                        <li><strong>版本: ${data。version}</li>
                     `;
             } else {
               statusDiv.innerHTML = `<h2>状态: <span style="color:red">离线</span></h2>`;
             }
           })
-          .catch(error => {
+          。catch(error => {
             console.error("请求出错:", error);
           });
       </script>
