@@ -1,9 +1,12 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
+import { useRouter } from 'vue-router'
+import HelloWorld from '@/components/HelloWorld.vue';
+import Nav from '@/components/NAV.vue'
 
+const router = useRouter()
+</script>
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <Nav />
+  <HelloWorld />
+  <button @click="router.push('/start')">现在开始</button>
 </template>
