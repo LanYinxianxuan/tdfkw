@@ -9,7 +9,8 @@ const router = useRouter()
     <h1 class="logo-h1">糖豆方块屋</h1>
   </div>
   <div class="a">
-    <a @click="router.push('/start')">现在开始</a>
+    <!-- <a @click="router.push('/start')">现在开始</a> -->
+     <router-link to="/start">现在开始</router-link>
   </div>
   
 </template>
