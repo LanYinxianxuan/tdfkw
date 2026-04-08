@@ -15,7 +15,7 @@ const statusText = computed(() => {
       <h2>登入糖豆方块屋</h2>
       <input type="text" placeholder="请输入用户名" />
       <input type="password" placeholder="请输入密码" />
-      <button>登入</button>
+      <RouterLink to="/dashboard">登入</RouterLink>
     </div>
     <div class="register">
       <h2>注册账号</h2>

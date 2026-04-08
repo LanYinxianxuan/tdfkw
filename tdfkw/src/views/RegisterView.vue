@@ -1,4 +1,5 @@
-<script setup></script>
+<script setup>
+</script>
 <template>
   <AppNav />
   <div class="app">
@@ -12,6 +13,6 @@
       <li>收到注册码后，按照提示完成注册流程</li>
     </ul>
     <input type="password" placeholder="请输入注册码" />
-    <button>开始</button>
+    <router-link to="/whitelist">现在开始</router-link>
   </div>
 </template>

@@ -20,6 +20,16 @@ const router = createRouter({
       component: () => import('../views/RegisterView.vue'),
     },
     {
+      path: '/whitelist',
+      name: 'whitelist',
+      component: () => import('../views/WhitelistView.vue'),
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('../views/DashboardView.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
