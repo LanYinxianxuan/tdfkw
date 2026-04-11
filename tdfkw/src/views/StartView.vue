@@ -1,8 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { RouterLink } from 'vue-router'
-import AppNav from '@/components/NAV.vue'
-
 const registerIsReady = ref(true) // 这里可以根据实际情况设置为 true 或 false
 const statusText = computed(() => {
   return registerIsReady.value ? '注册已经开放' : '注册尚未开放'
@@ -24,3 +21,54 @@ const statusText = computed(() => {
     </div>
   </div>
 </template>
+<style>
+.app {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+  font-family: Arial, sans-serif;
+}
+
+.logIn,
+.register {
+  flex: 1;
+  height: 100%;
+  background: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logIn h2,
+.register h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.logIn a,
+.register a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 1rem;
+  transition: background 0.3s;
+}
+
+.logIn a:hover,
+.register a:hover {
+  background: #5a6fd8;
+}
+
+.register span {
+  color: #666;
+  font-size: 0.9rem;
+}
+</style>

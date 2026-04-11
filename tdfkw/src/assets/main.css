@@ -1,8 +1,48 @@
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 h1 {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+button,
+input[type='button'],
+.btn {
+  display: inline-block;
+  padding: 0.75rem;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 4px;
+  transition: background 0.3s;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover,
+input[type='button']:hover,
+.btn:hover {
+  background: #5a6fd8;
 }
