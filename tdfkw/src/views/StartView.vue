@@ -1,22 +1,22 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-// const registerIsReady = ref(true) // 这里可以根据实际情况设置为 true 或 false
-onMounted(() => {
-  checkRegisterIsReady()
-})
-const registerIsReady = ref(false)
-const checkRegisterIsReady = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/registerIsReady')
-    const data = await response.json()
-    registerIsReady.value = data.registerIsReady
-  } catch (error) {
-    console.error('Error fetching register status:', error)
-  }
-}
-const statusText = computed(() => {
-  return registerIsReady.value ? '注册已经开放' : '注册尚未开放'
-})
+// import { ref, onMounted, computed } from 'vue'
+// // const registerIsReady = ref(true) // 这里可以根据实际情况设置为 true 或 false
+// onMounted(() => {
+//   checkRegisterIsReady()
+// })
+// const registerIsReady = ref(false)
+// const checkRegisterIsReady = async () => {
+//   try {
+//     const response = await fetch('http://localhost:3000/api/registerIsReady')
+//     const data = await response.json()
+//     registerIsReady.value = data.registerIsReady
+//   } catch (error) {
+//     console.error('Error fetching register status:', error)
+//   }
+// }
+// const statusText = computed(() => {
+//   return registerIsReady.value ? '注册已经开放' : '注册尚未开放'
+// })
 </script>
 <template>
   <AppNav />
@@ -29,8 +29,8 @@ const statusText = computed(() => {
     </div>
     <div class="register">
       <h2>注册账号</h2>
-      <RouterLink v-if="registerIsReady" to="/register">{{ statusText }}</RouterLink>
-      <span v-else>{{ statusText }}</span>
+      <RouterLink to="/register">注册</RouterLink>
+      <!-- <span v-else>{{ statusText }}</span> -->
     </div>
   </div>
 </template>

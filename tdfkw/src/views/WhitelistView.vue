@@ -1,17 +1,64 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue' 
+import CryptoJS from 'crypto-js';
+const email = ref('')
+const sendCode = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/send-otp',{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value })
+    })
+        if (response.ok) {
+      alert('验证码已发送')
+    } else {
+      const data = await response.json()
+      alert(data.message || '发送失败，请重试')
+    }
+  } catch (error) {
+    console.error('Error sending OTP:', error)
+  }
+}
+const username = ref('')
+const optCode = ref('')
+const password = ref('')
+const hashPassword = CryptoJS.SHA256(password.value).toString()
+const checkCodeApaaswordSend = async () => {
+  try {
+    const respone = await fetch('http://localhost:3000/api/check-oto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value, code: optCode.value, password: hashPassword.value, username: username.value })
+    })
+    if (respone.ok) {
+      alert('验证码正确')
+    } else {
+      const data = await respone.json()
+      alert(data.message || '验证码错误，请重试')
+    }
+  } catch (error) {
+    console.error('Error checking OTP:', error)
+  }
+}
+
+
+</script>
 <template>
   <AppNav />
   <div class="app">
     <form action="">
       <label for=""> 用户名 </label>
-      <input type="text" placeholder="与你的游戏名相同" />
+      <input type="text" placeholder="与你的游戏名相同" v-model="username"/>
       <label for=""> 邮箱 </label>
-      <input type="email" name="" id="" />
+      <input type="email" name="" id="" v-model="email"/>
       <label for=""> 邮箱验证码 </label>
-      <input type="text" />
+      <div class="input-with-button">
+        <input type="text" v-model="optCode" />
+        <span class="send-btn" @click="sendCode">发送验证码</span>
+      </div>
       <label for=""> 密码 </label>
-      <input type="password" name="" id="" />
-      <input type="button" value="注册" @click="$router.push('/dashboard')" />
+      <input type="password" name="" id="" v-model="password"/>
+      <input type="button" value="注册" @click="checkCodeApaaswordSend" />
     </form>
   </div>
 </template>
@@ -46,6 +93,36 @@ label {
 input[type='text'],
 input[type='email'],
 input[type='password'] {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   margin-bottom: 0.5rem;
+}
+
+.input-with-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.input-with-button input {
+  width: 100%;
+  margin-bottom: 0 !important;
+  padding-right: 100px;
+}
+
+.send-btn {
+  position: absolute;
+  right: 10px;
+  color: #000000;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+.send-btn:hover {
+  color: #45a049;
 }
 </style>

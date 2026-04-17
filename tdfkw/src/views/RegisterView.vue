@@ -1,4 +1,28 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const registerCode = ref('')
+const postRegisterCode = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/validateRegisterCode', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ registerCode: registerCode.value }),
+    })
+    const data = await response.json()
+    if (data.valid) {
+      router.push(`/detail/${data.id}`)
+      // 注册码有效，继续注册流程
+    } else {
+      alert('注册码无效或已过期')
+    }
+  } catch (error) {
+    console.error('Error validating register code:', error)
+  }
+}
+</script>
 <template>
   <AppNav />
   <div class="app">
@@ -12,8 +36,8 @@
         <li>等待审核通过后管理员会发送72h内有效的注册码</li>
         <li>收到注册码后，按照提示完成注册流程</li>
       </ul>
-      <input type="password" placeholder="请输入注册码" />
-      <router-link to="/whitelist" class="btn">现在开始</router-link>
+      <input type="password" placeholder="请输入注册码" v-model="registerCode" />
+      <button class="btn" @click="postRegisterCode">现在开始</button>
     </div>
   </div>
 </template>
