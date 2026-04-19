@@ -12,8 +12,10 @@ const postRegisterCode = async () => {
       body: JSON.stringify({ registerCode: registerCode.value }),
     })
     const data = await response.json()
+    // console.log('消息', data);
+    
     if (data.valid) {
-      router.push(`/detail/${data.id}`)
+      router.push(`/whitelist?code=${data.code}`)
       // 注册码有效，继续注册流程
     } else {
       alert('注册码无效或已过期')

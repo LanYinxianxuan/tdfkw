@@ -28,6 +28,7 @@ db.exec(`
   -- 邮箱验证码表：存储临时发送的 OTP
   CREATE TABLE IF NOT EXISTS email_verifications (
     email TEXT PRIMARY KEY,         -- 以邮箱为主键
+    code TEXT NOT NULL,          -- 注册码内容
     otp_code TEXT NOT NULL,         -- 6位验证码
     expires_at DATETIME NOT NULL    -- 验证码过期时间
   );
@@ -45,6 +46,7 @@ app.post('/api/validateRegisterCode', async c => {
   const { registerCode } = await c.req.json()
   const now = new Date().toISOString()
   const codeRecord = validateRegisterCodeStmt.get(registerCode, now)
+  // console.log('验证注册码:', registerCode, '结果:', codeRecord.code)
   if (codeRecord) {
     return c.json({ valid: true, code: codeRecord.code })
   } else {
@@ -65,7 +67,7 @@ const transporter = nodemailer.createTransport({
 // 接收数据
 app.post('/api/send-otp', async c => {
   try {
-    const { email } = await c.req.json()
+    const { email, code } = await c.req.json()
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
     const expires = new Date()
     expires.setMinutes(expires.getMinutes() + 10)
@@ -73,10 +75,10 @@ app.post('/api/send-otp', async c => {
     // 存储依据
     db.prepare(
       `
-      INSERT OR REPLACE INTO email_verifications (email, otp_code, expires_at) 
-      VALUES (?, ?, ?)
+      INSERT OR REPLACE INTO email_verifications (email, code, otp_code, expires_at) 
+      VALUES (?, ?, ?, ?)
     `
-    ).run(email, otp, expires.toISOString())
+    ).run(email, code, otp, expires.toISOString())
 
     // 发送动作
     await transporter.sendMail({
@@ -97,20 +99,20 @@ app.post('/api/send-otp', async c => {
 // 检验验证码
 app.post('/api/check-otp', async c => {
   try {
-    const { email, otp, password } = await c.req.json()
+    const { code, email, otp, password, username } = await c.req.json()
     const now = new Date().toISOString()
     const opt_code = db
       .prepare(
-        'SELECT * FROM email_verifications WHERE email = ? AND otp_code = ? AND expires_at > ?'
+        'SELECT * FROM email_verifications WHERE email = ? AND code = ? AND otp_code = ? AND expires_at > ?'
       )
-      .get(email, otp, now)
+      .get(email, code, otp, now)
     if (opt_code) {
-      return c.json({ valid: true })
       db.prepare('INSERT INTO users (username, password, email) VALUES (?, ?, ?)').run(
         username,
         password,
         email
       )
+      return c.json({ valid: true })
     } else {
       return c.json({ valid: false })
     }

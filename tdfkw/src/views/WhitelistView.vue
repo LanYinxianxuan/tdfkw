@@ -1,13 +1,27 @@
 <script setup>
-import { ref } from 'vue' 
+import { ref, onMounted } from 'vue' 
+import { useRoute } from 'vue-router'
 import CryptoJS from 'crypto-js';
+
+const route = useRoute()
+const code = ref('')
 const email = ref('')
+const username = ref('')
+const optCode = ref('')
+const password = ref('')
+
+onMounted(() => {
+  const codeFromUrl = route.query.code
+  if (codeFromUrl) {
+    code.value = codeFromUrl
+  }
+})
 const sendCode = async () => {
   try {
     const response = await fetch('http://localhost:3000/api/send-otp',{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.value })
+      body: JSON.stringify({ email: email.value, code: code.value})
     })
         if (response.ok) {
       alert('验证码已发送')
@@ -19,16 +33,13 @@ const sendCode = async () => {
     console.error('Error sending OTP:', error)
   }
 }
-const username = ref('')
-const optCode = ref('')
-const password = ref('')
-const hashPassword = CryptoJS.SHA256(password.value).toString()
-const checkCodeApaaswordSend = async () => {
+const checkCodeARegister = async () => {
   try {
-    const respone = await fetch('http://localhost:3000/api/check-oto', {
+    const hashPassword = CryptoJS.SHA256(password.value).toString()
+    const respone = await fetch('http://localhost:3000/api/check-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.value, code: optCode.value, password: hashPassword.value, username: username.value })
+      body: JSON.stringify({ code: code.value, email: email.value, otp: optCode.value, password: hashPassword, username: username.value })
     })
     if (respone.ok) {
       alert('验证码正确')
@@ -58,7 +69,7 @@ const checkCodeApaaswordSend = async () => {
       </div>
       <label for=""> 密码 </label>
       <input type="password" name="" id="" v-model="password"/>
-      <input type="button" value="注册" @click="checkCodeApaaswordSend" />
+      <input type="button" value="注册" @click="checkCodeARegister" />
     </form>
   </div>
 </template>
