@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue' 
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js'
+import router from '@/router'
 
 const route = useRoute()
 const code = ref('')
@@ -20,12 +21,12 @@ onMounted(() => {
 })
 const sendCode = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/send-otp',{
+    const response = await fetch('http://localhost:3000/api/send-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.value, code: code.value, qq: qq.value })
+      body: JSON.stringify({ email: email.value, code: code.value, qq: qq.value }),
     })
-        if (response.ok) {
+    if (response.ok) {
       alert('验证码已发送')
     } else {
       const data = await response.json()
@@ -41,38 +42,46 @@ const checkCodeARegister = async () => {
     const respone = await fetch('http://localhost:3000/api/check-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: code.value, email: email.value, otp: optCode.value, password: hashPassword, username: username.value })
+      body: JSON.stringify({
+        code: code.value,
+        qq: qq.value,
+        email: email.value,
+        otp: optCode.value,
+        password: hashPassword,
+        username: username.value,
+      }),
     })
-    if (respone.ok) {
-      alert('验证码正确')
+    const data = await respone.json()
+
+    if (data.valid) {
+      router.push(`/dashboard?userid=${data.userid}`)
+      // alert('验证码正确')
     } else {
-      const data = await respone.json()
+      // const data = await respone.json()
       alert(data.message || '验证码错误，请重试')
     }
   } catch (error) {
     console.error('Error checking OTP:', error)
   }
 }
-
-
 </script>
 <template>
   <AppNav />
   <div class="app">
     <form action="">
       <label for=""> 用户名 </label>
-      <input type="text" placeholder="与你的游戏名相同" v-model="username"/>
+      <input type="text" placeholder="与你的游戏名相同" v-model="username" />
       <label for="">QQ</label>
-      <input type="text" name="" id="" v-model="qq"/>
+      <input type="text" name="" id="" v-model="qq" />
       <label for=""> 邮箱 </label>
-      <input type="email" name="" id="" v-model="email"/>
+      <input type="email" name="" id="" v-model="email" />
       <label for=""> 邮箱验证码 </label>
       <div class="input-with-button">
         <input type="text" v-model="optCode" />
         <span class="send-btn" @click="sendCode">发送验证码</span>
       </div>
       <label for=""> 密码 </label>
-      <input type="password" name="" id="" v-model="password"/>
+      <input type="password" name="" id="" v-model="password" />
       <input type="button" value="注册" @click="checkCodeARegister" />
     </form>
   </div>
