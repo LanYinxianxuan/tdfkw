@@ -6,9 +6,7 @@ import { RouterLink } from 'vue-router'
   <AppNav />
   <div class="card">
     <h3 style="text-align: center">QQ群</h3>
-    <p style="text-align: center">
-      // <img src="#" alt="QQ群" style="width: 280px; max-width: 100%" />
-    </p>
+    <p style="text-align: center"></p>
     <div style="text-align: center; margin-top: 20px">
       <a
         href="https://qm.qq.com/q/rmjRaGFt0O"
