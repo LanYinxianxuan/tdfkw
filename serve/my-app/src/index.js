@@ -60,8 +60,8 @@ const transporter = nodemailer.createTransport({
   port: 465, // 必须使用 465 端口
   secure: true, // 必须为 true
   auth: {
-    user: 'lanyinxianxuan@163.com',
-    pass: 'SY7mmdJ5hkPyjMqt', // 步骤 A 获取的授权码
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS, // 步骤 A 获取的授权码
   },
 })
 
@@ -83,7 +83,7 @@ app.post('/api/send-otp', async c => {
 
     // 发送动作
     await transporter.sendMail({
-      from: '"我的应用" <lanyinxianxuan@163.com>',
+      from: `"我的应用" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: '注册码校验',
       text: `您的验证码是 ${otp}，10分钟内有效。`,
@@ -107,8 +107,9 @@ app.post('/api/check-otp', async c => {
         'SELECT * FROM email_verifications WHERE email = ? AND code = ? AND otp_code = ? AND expires_at > ?'
       )
       .get(email, code, otp, now)
+      console.log(opt_code)
     if (opt_code) {
-      db.prepare('INSERT INTO users (username,qq, password, email) VALUES (?, ?, ?)').run(
+      db.prepare('INSERT INTO users (username, qq, password, email) VALUES (?, ?, ?, ?)').run(
         username,
         qq,
         password,
