@@ -20,6 +20,7 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,  -- 用户名
+    qq TEXT UNIQUE NOT NULL,        -- QQ
     password TEXT NOT NULL,         -- 密码
     email TEXT UNIQUE,              -- 绑定邮箱
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -99,7 +100,7 @@ app.post('/api/send-otp', async c => {
 // 检验验证码
 app.post('/api/check-otp', async c => {
   try {
-    const { code, email, otp, password, username } = await c.req.json()
+    const { code, email, otp, password, username, qq } = await c.req.json()
     const now = new Date().toISOString()
     const opt_code = db
       .prepare(
@@ -107,8 +108,9 @@ app.post('/api/check-otp', async c => {
       )
       .get(email, code, otp, now)
     if (opt_code) {
-      db.prepare('INSERT INTO users (username, password, email) VALUES (?, ?, ?)').run(
+      db.prepare('INSERT INTO users (username,qq, password, email) VALUES (?, ?, ?)').run(
         username,
+        qq,
         password,
         email
       )

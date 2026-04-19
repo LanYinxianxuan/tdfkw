@@ -6,6 +6,8 @@ import CryptoJS from 'crypto-js';
 const route = useRoute()
 const code = ref('')
 const email = ref('')
+const qq = ref('')
+
 const username = ref('')
 const optCode = ref('')
 const password = ref('')
@@ -21,7 +23,7 @@ const sendCode = async () => {
     const response = await fetch('http://localhost:3000/api/send-otp',{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.value, code: code.value})
+      body: JSON.stringify({ email: email.value, code: code.value, qq: qq.value })
     })
         if (response.ok) {
       alert('验证码已发送')
@@ -60,6 +62,8 @@ const checkCodeARegister = async () => {
     <form action="">
       <label for=""> 用户名 </label>
       <input type="text" placeholder="与你的游戏名相同" v-model="username"/>
+      <label for="">QQ</label>
+      <input type="text" name="" id="" v-model="qq"/>
       <label for=""> 邮箱 </label>
       <input type="email" name="" id="" v-model="email"/>
       <label for=""> 邮箱验证码 </label>
