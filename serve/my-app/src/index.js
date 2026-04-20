@@ -29,7 +29,8 @@ db.exec(`
   -- 邮箱验证码表：存储临时发送的 OTP
   CREATE TABLE IF NOT EXISTS email_verifications (
     email TEXT PRIMARY KEY,         -- 以邮箱为主键
-    code TEXT NOT NULL,          -- 注册码内容
+    code TEXT NOT NULL,            -- 注册码内容
+    qq TEXT NOT NULL,              -- QQ号
     otp_code TEXT NOT NULL,         -- 6位验证码
     expires_at DATETIME NOT NULL    -- 验证码过期时间
   );
@@ -68,7 +69,7 @@ const transporter = nodemailer.createTransport({
 // 接收数据
 app.post('/api/send-otp', async c => {
   try {
-    const { email, code } = await c.req.json()
+    const { email, code, qq } = await c.req.json()
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
     const expires = new Date()
     expires.setMinutes(expires.getMinutes() + 10)
@@ -76,10 +77,10 @@ app.post('/api/send-otp', async c => {
     // 存储依据
     db.prepare(
       `
-      INSERT OR REPLACE INTO email_verifications (email, code, otp_code, expires_at) 
-      VALUES (?, ?, ?, ?)
+      INSERT OR REPLACE INTO email_verifications (email, code, qq, otp_code, expires_at)
+      VALUES (?, ?, ?, ?, ?)
     `
-    ).run(email, code, otp, expires.toISOString())
+    ).run(email, code, qq, otp, expires.toISOString())
 
     // 发送动作
     await transporter.sendMail({
@@ -104,18 +105,21 @@ app.post('/api/check-otp', async c => {
     const now = new Date().toISOString()
     const opt_code = db
       .prepare(
-        'SELECT * FROM email_verifications WHERE email = ? AND code = ? AND otp_code = ? AND expires_at > ?'
+        'SELECT * FROM email_verifications WHERE email = ? AND code = ? AND qq = ? AND otp_code = ? AND expires_at > ?'
       )
-      .get(email, code, otp, now)
-      console.log(opt_code)
+      .get(email, code, qq, otp, now)
+    console.log(opt_code)
     if (opt_code) {
-      const result = db.prepare('INSERT INTO users (username, qq, password, email) VALUES (?, ?, ?, ?)').run(
-        username,
-        qq,
-        password,
-        email
-      )
-      return c.json({ valid: true })
+      const result = db
+        .prepare('INSERT INTO users (username, qq, password, email) VALUES (?, ?, ?, ?)')
+        .run(username, qq, password, email)
+      // 标记注册码为已使用
+      db.prepare('UPDATE registerCodes SET is_used = 1 WHERE code = ?').run(code)
+      const user = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid)
+      return c.json({
+        valid: true,
+        user: { id: user.id, username: user.username, email: user.email, qq: user.qq },
+      })
     } else {
       return c.json({ valid: false })
     }
@@ -126,3 +130,22 @@ app.post('/api/check-otp', async c => {
 })
 
 serve(app)
+
+// 登录
+app.post('/api/login', async c => {
+  try {
+    const { username, password } = await c.req.json()
+    const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username)
+    if (user && user.password === password) {
+      return c.json({
+        success: true,
+        user: { id: user.id, username: user.username, email: user.email, qq: user.qq },
+      })
+    } else {
+      return c.json({ success: false, error: '用户名或密码错误' })
+    }
+  } catch (error) {
+    console.error('登录失败:', error)
+    return c.json({ success: false, error: '服务器错误' }, 500)
+  }
+})

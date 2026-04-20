@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user'
 import CryptoJS from 'crypto-js'
-// import router from '@/router'
 
 const route = useRoute()
+const router = useRouter()
+const userStore = useUserStore()
 const code = ref('')
 const email = ref('')
 const qq = ref('')
@@ -46,8 +48,8 @@ const checkCodeARegister = async () => {
     })
     const data = await respone.json()
     if (respone.ok && data.valid) {
-      alert('注册成功')
-      window.location.href = `http://localhost:5173/dashboard?userid=${data.userId}`
+      userStore.setUser(data.user)
+      router.push(`/dashboard?userid=${data.user.id}`)
     } else {
       alert(data.message || '验证码错误，请重试')
     }
@@ -84,60 +86,70 @@ const checkCodeARegister = async () => {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f5f5f5;
+  background: var(--bg-secondary, #f5f5f5);
 }
 
 form {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--bg-primary, #ffffff);
+  padding: 2.5rem;
+  border-radius: var(--radius-md, 4px);
+  border: 1px solid var(--border-color, #e0e0e0);
   max-width: 400px;
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 label {
-  color: #333;
-  font-weight: bold;
-  font-size: 0.95rem;
+  color: var(--text-primary, #1a1a1a);
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+label:first-child {
+  margin-top: 0;
 }
 
 input[type='text'],
 input[type='email'],
 input[type='password'] {
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-sm, 2px);
+  margin-bottom: 0;
 }
 
 .input-with-button {
   position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
 }
 
 .input-with-button input {
-  width: 100%;
-  margin-bottom: 0 !important;
-  padding-right: 100px;
+  padding-right: 80px;
 }
 
 .send-btn {
   position: absolute;
   right: 10px;
-  color: #000000;
+  color: var(--text-secondary, #666);
   cursor: pointer;
   font-size: 0.85rem;
-  font-weight: bold;
+  font-weight: 500;
   user-select: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm, 2px);
+  transition: color 0.2s, background 0.2s;
 }
 
 .send-btn:hover {
-  color: #45a049;
+  color: var(--text-primary, #1a1a1a);
+  background: var(--bg-tertiary, #e8e8e8);
+}
+
+input[type='button'] {
+  margin-top: 0.5rem;
 }
 </style>

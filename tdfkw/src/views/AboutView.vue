@@ -3,116 +3,45 @@
 
 <template>
   <AppNav />
-  <section
-    class="about-section"
-    style="
-      max-width: 700px;
-      margin: 40px auto 60px;
-      background: #ffffff6b;
-      border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-      padding: 36px 32px 28px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    "
-  >
-    <h2
-      style="
-        text-align: center;
-        font-size: 2.1em;
-        margin-bottom: 18px;
-        color: #000000;
-        letter-spacing: 2px;
-      "
-    >
-      关于糖豆方块屋
-    </h2>
-    <div
-      style="
-        font-size: 1.15em;
-        color: #444;
-        line-height: 2;
-        margin-bottom: 22px;
-        text-align: center;
-      "
-    >
-      <p style="text-align: center">
+  <section class="about-section">
+    <h2>关于糖豆方块屋</h2>
+    <div class="content">
+      <p class="rainyun-link">
         本服务器，域名由
-        <a
-          href="https://app.rainyun.com/"
-          target="_blank"
-          rel="noopener"
-          style="display: inline-flex; align-items: center; gap: 4px"
-        >
-          <img
-            src="https://app.rainyun.com/img/logo.d193755d.png"
-            alt="Rainyun"
-            style="height: 18px; vertical-align: middle; margin-right: 2px"
-          />
+        <a href="https://app.rainyun.com/" target="_blank" rel="noopener">
+          <img src="https://app.rainyun.com/img/logo.d193755d.png" alt="Rainyun" />
           <span>Rainyun提供</span>
         </a>
       </p>
-      糖豆方块屋致力于为玩家提供优质游戏资源、文档与交流空间。<br />
-      专注Minecraft相关内容，包括服务器、皮肤、插件、模组等。<br />
-      网站由
-      <b style="color: #000000">lanyinxianxuan</b>
-      搭建与维护，欢迎提出宝贵建议。<br />
-      <span style="color: #000000"><strong>联系方式：</strong> lanyinxianxuan@163.com</span>
+      <p>糖豆方块屋致力于为玩家提供优质游戏资源、文档与交流空间。</p>
+      <p>专注Minecraft相关内容，包括服务器、皮肤、插件、模组等。</p>
+      <p>网站由 <strong>lanyinxianxuan</strong> 搭建与维护，欢迎提出宝贵建议。</p>
+      <p class="contact"><strong>联系方式：</strong> lanyinxianxuan@163.com</p>
     </div>
-    <ul style="list-style: none; padding: 0; margin: 0; width: 100%">
-      <li style="margin-bottom: 14px; display: flex; align-items: center; justify-content: center">
-        <span style="min-width: 90px; color: #000000; font-weight: bold">官方网站：</span>
-        <a
-          href="https://www.tangdoufangkuaiwu.top/"
-          target="_blank"
-          style="color: #0078d7; text-decoration: none; transition: color 0.2s"
-          >www.tangdoufangkuaiwu.top</a
-        >
+    <ul class="links">
+      <li>
+        <span class="label">官方网站：</span>
+        <a href="https://www.tangdoufangkuaiwu.top/" target="_blank">www.tangdoufangkuaiwu.top</a>
       </li>
-      <li style="margin-bottom: 14px; display: flex; align-items: center; justify-content: center">
-        <span style="min-width: 90px; color: #000000; font-weight: bold">备用地址：</span>
-        <a
-          href="https://tdfkwweb.pages.dev/"
-          target="_blank"
-          style="color: #0078d7; text-decoration: none; transition: color 0.2s"
-          >tdfkwweb.pages.dev</a
-        >
+      <li>
+        <span class="label">备用地址：</span>
+        <a href="https://tdfkwweb.pages.dev/" target="_blank">tdfkwweb.pages.dev</a>
       </li>
-      <li style="margin-bottom: 14px; display: flex; align-items: center; justify-content: center">
-        <span style="min-width: 90px; color: #000000; font-weight: bold">文档中心：</span>
-        <a
-          href="https://docsify.tangdoufangkuaiwu.top/"
-          target="_blank"
-          style="color: #0078d7; text-decoration: none; transition: color 0.2s"
-          >docsify.tangdoufangkuaiwu.top</a
-        >
+      <li>
+        <span class="label">文档中心：</span>
+        <a href="https://docsify.tangdoufangkuaiwu.top/" target="_blank">docsify.tangdoufangkuaiwu.top</a>
       </li>
-      <li style="display: flex; align-items: center; justify-content: center">
-        <span style="min-width: 90px; color: #000000; font-weight: bold">GitHub仓库：</span>
-        <a
-          href="https://github.com/LanYinxianxuan/tdfkw.git"
-          target="_blank"
-          style="color: #0078d7; text-decoration: none; transition: color 0.2s"
-          >tdfkw.git</a
-        >
+      <li>
+        <span class="label">GitHub仓库：</span>
+        <a href="https://github.com/LanYinxianxuan/tdfkw.git" target="_blank">tdfkw.git</a>
       </li>
     </ul>
   </section>
   <footer class="footer">
-    <p>
+    <p class="rainyun-link">
       本服务器，域名由
-      <a
-        href="https://app.rainyun.com/"
-        target="_blank"
-        rel="noopener"
-        style="display: inline-flex; align-items: center; gap: 4px"
-      >
-        <img
-          src="https://app.rainyun.com/img/logo.d193755d.png"
-          alt="Rainyun"
-          style="height: 18px; vertical-align: middle; margin-right: 2px"
-        />
+      <a href="https://app.rainyun.com/" target="_blank" rel="noopener">
+        <img src="https://app.rainyun.com/img/logo.d193755d.png" alt="Rainyun" />
         <span>Rainyun提供</span>
       </a>
     </p>
@@ -124,14 +53,106 @@
 </template>
 
 <style scoped>
+.about-section {
+  max-width: 700px;
+  margin: 40px auto 60px;
+  background: var(--bg-primary, #ffffff);
+  border-radius: var(--radius-lg, 6px);
+  border: 1px solid var(--border-color, #e0e0e0);
+  padding: 36px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-section h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary, #1a1a1a);
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.content {
+  font-size: 1rem;
+  color: var(--text-secondary, #666);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.content p {
+  margin: 0.5rem 0;
+}
+
+.content strong {
+  color: var(--text-primary, #1a1a1a);
+  font-weight: 600;
+}
+
+.rainyun-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.rainyun-link img {
+  height: 18px;
+}
+
+.contact {
+  color: var(--text-primary, #1a1a1a);
+}
+
+.links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.links li {
+  display: flex;
+  align-items: center;
+}
+
+.links .label {
+  min-width: 90px;
+  color: var(--text-primary, #1a1a1a);
+  font-weight: 500;
+}
+
+.links a {
+  color: var(--text-secondary, #666);
+  transition: color 0.2s;
+}
+
+.links a:hover {
+  color: var(--text-primary, #1a1a1a);
+}
+
 .footer {
   text-align: center;
   padding: 2rem;
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.85rem;
+  color: var(--text-tertiary, #999);
 }
+
+.footer p {
+  margin: 0.25rem 0;
+}
+
 .footer a {
-  color: #25a0e2;
-  text-decoration: none;
+  color: var(--text-secondary, #666);
+}
+
+.footer a:hover {
+  color: var(--text-primary, #1a1a1a);
 }
 </style>

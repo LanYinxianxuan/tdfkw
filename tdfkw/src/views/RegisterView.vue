@@ -49,51 +49,61 @@ const postRegisterCode = async () => {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f5f5f5;
+  background: var(--bg-secondary, #f5f5f5);
 }
 
 .container {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  width: 100%;
+  background: var(--bg-primary, #ffffff);
+  padding: 2.5rem;
+  border-radius: var(--radius-md, 4px);
+  border: 1px solid var(--border-color, #e0e0e0);
+  max-width: 480px;
+  width: 90%;
 }
 
 .container h2 {
   margin: 0 0 1.5rem 0;
-  color: #333;
+  color: var(--text-primary, #1a1a1a);
   text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .container ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 2rem 0;
 }
 
 .container li {
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background: #f9f9f9;
-  border-left: 3px solid #667eea;
-  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  padding: 0.8rem 1rem;
+  background: var(--bg-secondary, #f5f5f5);
+  border-left: 2px solid var(--accent, #1a1a1a);
+  border-radius: var(--radius-sm, 2px);
+  color: var(--text-secondary, #666);
+  font-size: 0.9rem;
 }
 
 .container li a {
-  color: #667eea;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s;
+  color: var(--text-primary, #1a1a1a);
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
 .container li a:hover {
-  color: #5a6fd8;
+  color: var(--accent-hover, #000000);
 }
 
 .container li span {
   margin-left: 0.5rem;
-  color: #666;
+}
+
+.container input {
+  margin-bottom: 1rem;
+}
+
+.container .btn {
+  margin-top: 0.5rem;
 }
 </style>
