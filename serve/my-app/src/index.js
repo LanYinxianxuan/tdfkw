@@ -115,7 +115,7 @@ app.post('/api/check-otp', async c => {
         password,
         email
       )
-      return c.json({ valid: true, userId: result.lastInsertRowid })
+      return c.json({ valid: true })
     } else {
       return c.json({ valid: false })
     }
