@@ -109,13 +109,13 @@ app.post('/api/check-otp', async c => {
       .get(email, code, otp, now)
       console.log(opt_code)
     if (opt_code) {
-      db.prepare('INSERT INTO users (username, qq, password, email) VALUES (?, ?, ?, ?)').run(
+      const result = db.prepare('INSERT INTO users (username, qq, password, email) VALUES (?, ?, ?, ?)').run(
         username,
         qq,
         password,
         email
       )
-      return c.json({ valid: true })
+      return c.json({ valid: true, userId: result.lastInsertRowid })
     } else {
       return c.json({ valid: false })
     }

@@ -41,12 +41,13 @@ const checkCodeARegister = async () => {
     const respone = await fetch('http://localhost:3000/api/check-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: code.value, email: email.value, otp: optCode.value, password: hashPassword, username: username.value })
+      body: JSON.stringify({ code: code.value, email: email.value, otp: optCode.value, password: hashPassword, username: username.value, qq: qq.value })
     })
-    if (respone.ok) {
-      alert('验证码正确')
+    const data = await respone.json()
+    if (respone.ok && data.valid) {
+      alert('注册成功')
+      window.location.href = `http://localhost:5173/dashboard?userid=${data.userId}`
     } else {
-      const data = await respone.json()
       alert(data.message || '验证码错误，请重试')
     }
   } catch (error) {
