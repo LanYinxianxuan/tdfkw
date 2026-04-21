@@ -14,6 +14,7 @@
 ## 🛠️ 技术栈
 
 ### 前端
+
 - **框架**: Vue.js 3 (Composition API)
 - **构建工具**: Vite
 - **状态管理**: Pinia
@@ -21,11 +22,13 @@
 - **静态文档**: VitePress
 
 ### 后端
+
 - **框架**: [Hono](https://hono.dev/) (跑在 Node.js 上)
 - **数据库**: SQLite (通过 `better-sqlite3`)
 - **开发工具**: tsx, TypeScript
 
 ### 代码规范
+
 - ESLint, Prettier, Oxlint
 
 ## 🚀 快速开始
@@ -66,12 +69,24 @@ npm run dev
 ## 🤝 参与开发
 
 如果你有任何建议或想参与开发，可以通过以下方式联系我们：
+
 - **Email**: lanyinxianxuan@163.com
 - **GitHub**: [LanYinxianxuan/tdfkw](https://github.com/LanYinxianxuan/tdfkw.git)
+
+### 分支命名规范
+
+在贡献代码前，请遵循以下分支命名规范：
+
+- `feature/` : 新功能开发 (例如：`feature/login-system`)
+- `fix/` : 修复 Bug (例如：`fix/header-style`)
+- `docs/` : 文档更新 (例如：`docs/api-guide`)
+- `refactor/` : 代码重构 (例如：`refactor/api-logic`)
+- `chore/` : 构建过程或辅助工具的变动 (例如：`chore/update-deps`)
 
 ## 📄 开源协议
 
 本项目采用 [LICENSE](LICENSE) 中规定的开源协议。
 
 ---
+
 版权所有 &copy; 2024–2025 糖豆方块屋
