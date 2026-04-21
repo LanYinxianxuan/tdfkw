@@ -1,20 +1,18 @@
 {
-  "name": "my-app",
+  "name": "tdfkw-api",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node --env-file=.env node_modules/tsx/dist/cli.mjs watch src/index.js",
-    "build": "tsc",
-    "start": "node --env-file=.env dist/index.js"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "d1:create": "wrangler d1 create tdfkw-db",
+    "d1:execute": "wrangler d1 execute tdfkw-db --file=./schema.sql",
+    "d1:query": "wrangler d1 execute tdfkw-db --command"
   },
   "dependencies": {
-    "@hono/node-server": "^1.19.13",
-    "better-sqlite3": "^12.8.0",
-    "hono": "^4.12.12",
-    "nodemailer": "^8.0.5"
+    "hono": "^4.12.12"
   },
   "devDependencies": {
-    "@types/node": "^20.11.17",
-    "tsx": "^4.7.1",
-    "typescript": "^5.8.3"
+    "wrangler": "^3.78.0"
   }
 }
