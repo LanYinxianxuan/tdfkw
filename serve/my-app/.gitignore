@@ -1,0 +1,34 @@
+# dev
+.yarn/
+!.yarn/releases
+.vscode/*
+!.vscode/launch.json
+!.vscode/*.code-snippets
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelfp
+
+# deps
+node_modules/
+dist/
+
+# env
+.env
+.env.production
+
+# database
+*.db
+*.db-shm
+*.db-wal
+
+# logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# misc
+.DS_Store
