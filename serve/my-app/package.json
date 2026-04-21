@@ -7,7 +7,8 @@
     "deploy": "wrangler deploy",
     "d1:create": "wrangler d1 create tdfkw-db",
     "d1:execute": "wrangler d1 execute tdfkw-db --file=./schema.sql",
-    "d1:query": "wrangler d1 execute tdfkw-db --command"
+    "d1:query": "wrangler d1 execute tdfkw-db --command",
+    "build": "..."
   },
   "dependencies": {
     "hono": "^4.12.12"
