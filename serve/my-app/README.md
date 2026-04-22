@@ -21,15 +21,25 @@
 npm install
 ```
 
-#### 2. 创建 D1 数据库
-```bash
-npm run d1:create
-```
-复制返回的 `database_id` 到 `wrangler.toml` 中的 `database_id`。
+#### 2. 配置 wrangler.toml
+```toml
+[[d1_databases]]
+binding = "db"
+database_name = "tdfkw"
+database_id = "your-database-id"  # 需要先创建获取
 
-#### 3. 初始化数据库表
+[vars]
+EMAIL_USER = "your-email@163.com"
+```
+
+#### 3. 创建 D1 数据库（首次）
 ```bash
-npm run d1:execute
+# 创建远程数据库
+npm run d1:create
+# 复制返回的 database_id 到 wrangler.toml
+
+# 创建本地测试数据库
+wrangler d1 execute tdfkw --local --file=./schema.sql
 ```
 
 #### 4. 本地开发
@@ -38,9 +48,13 @@ npm run dev
 ```
 访问 `http://localhost:8787`
 
-#### 5. 部署
+#### 5. 部署到 Cloudflare
 ```bash
+# 部署代码
 npm run deploy
+
+# 初始化远程数据库表
+# 访问 https://your-worker.your-subdomain.workers.dev/api/init
 ```
 
 ### 配置说明
@@ -125,6 +139,42 @@ npm run d1:query --command "SELECT COUNT(*) FROM users"
 
 # 查看日志
 wrangler tail
+```
+
+## 本地开发流程
+
+### 方式一：本地模拟（推荐用于快速测试）
+
+```bash
+# 1. 创建本地数据库
+wrangler d1 execute tdfkw-db --local --file=./schema.sql
+
+# 2. 启动本地开发服务器
+wrangler dev --local
+
+# 3. 访问 http://localhost:8787
+```
+
+### 方式二：连接远程数据库（推荐用于真实测试）
+
+```bash
+# 1. 确保远程数据库已创建并配置好 database_id
+
+# 2. 启动开发服务器（连接远程）
+wrangler dev --remote
+
+# 3. 访问 http://localhost:8787
+# 注意：这会直接操作远程数据库
+```
+
+### 查询数据库
+
+```bash
+# 查询本地数据库
+wrangler d1 execute tdfkw-db --local --command "SELECT * FROM users"
+
+# 查询远程数据库
+wrangler d1 execute tdfkw-db --command "SELECT * FROM users"
 ```
 
 ### 注意事项
