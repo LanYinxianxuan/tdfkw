@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useUserStore } from '../stores/user'
 import CryptoJS from 'crypto-js'
 import router from '@/router'
+import { request } from '@/utils/request'
 
 const userStore = useUserStore()
 
@@ -12,12 +13,12 @@ const password = ref('')
 const login = async () => {
   try {
     const hashPassword = CryptoJS.SHA256(password.value).toString()
-    const response = await fetch('http://localhost:3000/api/login', {
+    const response = await request('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: username.value, password: hashPassword }),
     })
-    const data = await response.json()
+    const data = await response
     if (response.ok && data.success) {
       userStore.setUser(data.user)
       // 登录成功，导航栏自动显示头像

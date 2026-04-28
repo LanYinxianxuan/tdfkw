@@ -1,4 +1,5 @@
 <script setup>
+import { request } from '@/utils/request'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -6,14 +7,14 @@ const router = useRouter()
 const registerCode = ref('')
 const postRegisterCode = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/validateRegisterCode', {
+    const response = await request('/api/validateRegisterCode', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ registerCode: registerCode.value }),
     })
-    const data = await response.json()
+    const data = await response
     // console.log('消息', data);
-    
+
     if (data.valid) {
       router.push(`/whitelist?code=${data.code}`)
       // 注册码有效，继续注册流程
