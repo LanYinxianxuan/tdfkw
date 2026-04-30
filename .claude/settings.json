@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(wrangler dev *)",
+      "Read(//home/tiny/.config/.wrangler/logs/**)",
+      "Bash(TCMALLOC_ADDRESS_BITS=32 npx wrangler@latest dev --port 8787)"
+    ]
+  }
+}

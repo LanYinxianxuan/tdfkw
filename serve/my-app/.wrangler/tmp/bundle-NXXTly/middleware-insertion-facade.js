@@ -3,7 +3,7 @@
 import * as __MIDDLEWARE_1__ from "/home/tiny/Desktop/github/tdfkw/serve/my-app/node_modules/wrangler/templates/middleware/middleware-miniflare3-json-error.ts";
 
 				export * from "/home/tiny/Desktop/github/tdfkw/serve/my-app/src/index.js";
-
+				const MIDDLEWARE_TEST_INJECT = "__INJECT_FOR_TESTING_WRANGLER_MIDDLEWARE__";
 				export const __INTERNAL_WRANGLER_MIDDLEWARE__ = [
 					
 					__MIDDLEWARE_0__.default,__MIDDLEWARE_1__.default

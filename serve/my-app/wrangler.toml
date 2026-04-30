@@ -1,6 +1,6 @@
 name = "tdfkw"
 main = "src/index.js"
-compatibility_date = "2024-04-01"
+compatibility_date = "2026-04-28"
 
 [[d1_databases]]
 binding = "db"
