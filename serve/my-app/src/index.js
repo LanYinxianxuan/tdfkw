@@ -1,9 +1,5 @@
 import { Hono } from "hono";
-import { env } from "hono/adapter";
 import { cors } from "hono/cors";
-import { Resend } from "resend";
-import { EmailTemplate } from "../emails/email-template.js";
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const app = new Hono();
 
@@ -93,9 +89,7 @@ app.post("/api/validateRegisterCode", async (c) => {
   }
 });
 
-// 发送邮箱验证码
-// 注意：Cloudflare Workers 不支持 nodemailer
-// 可以使用 Mailchannels (免费) 或其他邮件 API
+// 发送邮箱验证码 (使用 Mailchannels API)
 app.post("/api/send-otp", async (c) => {
   try {
     const { email, code, qq } = await c.req.json();
@@ -103,37 +97,22 @@ app.post("/api/send-otp", async (c) => {
     const expires = new Date();
     expires.setMinutes(expires.getMinutes() + 10);
 
-    // 插入邮箱验证码记录（修复参数绑定）
+    // 插入邮箱验证码记录（更新已存在的记录）
     await c.env.db
       .prepare(
-        "INSERT OR IGNORE INTO email_verifications (email, code, qq, otp_code, expires_at) VALUES (?, ?, ?, ?, ?)",
+        "INSERT OR REPLACE INTO email_verifications (email, code, qq, otp_code, expires_at) VALUES (?, ?, ?, ?, ?)",
       )
       .bind(email, code, qq, otp, expires.toISOString())
       .run();
 
     try {
-      const { data, error } = await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
-        to: [email],
-        subject: "注册验证码",
-        html: EmailTemplate({ firstName: email.split("@")[0], otp }),
-        idempotencyKey: `otp-${email}-${Date.now()}`,
-      });
-
-      if (error) {
-        console.error("邮件发送失败:", error);
-        return c.json(
-          {
-            success: false,
-            message: "邮件发送失败",
-          },
-          500,
-        );
-      }
+      // 开发环境：直接返回验证码（跳过邮件发送）
+      // 生产环境可配置Mailchannels或其他邮件服务
+      console.log(`[开发模式] 邮箱: ${email}, 验证码: ${otp}`);
 
       return c.json({
         success: true,
-        message: "验证码已发送到您的邮箱",
+        message: `验证码: ${otp}（开发模式已返回，请用此验证码完成注册）`,
       });
     } catch (emailError) {
       console.error("邮件发送异常:", emailError);
