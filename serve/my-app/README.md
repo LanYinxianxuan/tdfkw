@@ -36,13 +36,40 @@ EMAIL_USER = "your-email@163.com"
 
 #### 3. 创建 D1 数据库（首次）
 
-```bash
-# 创建远程数据库
-npm run d1:create
-# 复制返回的 database_id 到 wrangler.toml
+##### 3.1 快速创建（推荐）
 
-# 创建本地测试数据库
-wrangler d1 execute tdfkw --local --file=./schema.sql
+```bash
+cd serve/my-app
+
+# 方式A: 启动开发服务器自动创建本地数据库
+npm run dev
+
+# 在另一个终端初始化数据库表
+curl http://localhost:8787/api/init
+```
+
+##### 3.2 手动创建本地数据库
+
+```bash
+cd serve/my-app
+
+# 使用 npx wrangler 执行 schema.sql 初始化本地数据库
+npx wrangler d1 execute tdfkw --local --file=./schema.sql
+```
+
+##### 3.3 创建远程数据库（Cloudflare）
+
+```bash
+# 创建远程 D1 数据库
+npm run d1:create
+
+# 查看返回的 database_id，复制到 wrangler.toml 的 [[d1_databases]] 配置
+# database_id = "复制这个ID"
+
+# 初始化远程数据库表（需先部署）
+npm run deploy
+# 然后执行初始化
+curl https://your-worker-url/api/init
 ```
 
 #### 4. 本地开发
@@ -299,3 +326,68 @@ wrangler d1 execute tdfkw-db --command "SELECT * FROM users"
 2. **环境变量**: 使用 `c.env.VAR_NAME` 访问
 3. **异步操作**: D1 所有操作都是异步的，需要 `await`
 4. **邮件发送**: Workers 不支持 SMTP，使用 HTTP API
+
+## 故障排查
+
+### 数据库创建相关
+
+#### 问题：`bash: wrangler: command not found`
+
+**解决方案**：使用 `npx` 运行 wrangler
+
+```bash
+cd serve/my-app
+npx wrangler d1 execute tdfkw --local --file=./schema.sql
+```
+
+#### 问题：本地数据库文件损坏或需要重置
+
+**解决方案**：删除临时文件并重新初始化
+
+```bash
+cd serve/my-app
+rm -rf .wrangler/state .wrangler/tmp
+npm run dev
+# 在另一个终端
+curl http://localhost:8787/api/init
+```
+
+#### 问题：验证码一直显示错误
+
+**可能原因**：
+
+- 邮箱已存在，旧验证码未更新 ✅ 已修复（使用 INSERT OR REPLACE）
+- OTP 过期（10分钟）
+- 数据库没有初始化
+
+**排查步骤**：
+
+```bash
+# 1. 检查验证码是否保存
+npx wrangler d1 execute tdfkw --local --command "SELECT * FROM email_verifications"
+
+# 2. 清空验证表重新测试
+npx wrangler d1 execute tdfkw --local --command "DELETE FROM email_verifications"
+
+# 3. 查看后端日志
+# npm run dev 时的控制台会显示 [开发模式] 邮箱: xxx, 验证码: 123456
+```
+
+### 开发服务器相关
+
+#### 问题：端口被占用
+
+**解决方案**：修改 wrangler.toml
+
+```toml
+[env.development]
+port = 8888  # 改为其他端口
+```
+
+#### 问题：CORS 错误
+
+**检查**：已在代码中配置了 CORS 中间件
+
+```js
+app.use("/*", cors());
+```

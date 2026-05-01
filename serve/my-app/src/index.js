@@ -91,40 +91,7 @@ app.post("/api/validateRegisterCode", async (c) => {
 
 // 发送邮箱验证码 (使用 Mailchannels API)
 app.post("/api/send-otp", async (c) => {
-  try {
-    const { email, code, qq } = await c.req.json();
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expires = new Date();
-    expires.setMinutes(expires.getMinutes() + 10);
-
-    // 插入邮箱验证码记录（更新已存在的记录）
-    await c.env.db
-      .prepare(
-        "INSERT OR REPLACE INTO email_verifications (email, code, qq, otp_code, expires_at) VALUES (?, ?, ?, ?, ?)",
-      )
-      .bind(email, code, qq, otp, expires.toISOString())
-      .run();
-
-    try {
-      // 开发环境：直接返回验证码（跳过邮件发送）
-      // 生产环境可配置Mailchannels或其他邮件服务
-      console.log(`[开发模式] 邮箱: ${email}, 验证码: ${otp}`);
-
-      return c.json({
-        success: true,
-        message: `验证码: ${otp}（开发模式已返回，请用此验证码完成注册）`,
-      });
-    } catch (emailError) {
-      console.error("邮件发送异常:", emailError);
-      // 开发环境返回验证码（测试用）
-      return c.json({
-        success: true,
-        message: `邮件已发送（开发环境验证码：${otp}）`,
-      });
-    }
-  } catch (error) {
-    return c.json({ success: false, error: error.message }, 500);
-  }
+  
 });
 
 // 检验验证码并注册
