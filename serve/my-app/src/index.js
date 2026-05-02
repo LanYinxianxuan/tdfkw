@@ -96,11 +96,12 @@ app.post("/api/send-otp", async (c) => {
     const { email } = await c.req.json();
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const now = new Date().toISOString();
-    await c.env.db.prepare(
-      "INSERT INTO email_verifications (email,code,otp_code,expires_id) VALUES(?,?,?,?)"
-        .bind(email, otp, now)
-        .run(),
-    );
+    await c.env.db
+      .prepare(
+        "INSERT INTO email_verifications (email, code, otp_code, expires_at) VALUES(?,?,?,?)",
+      )
+      .bind(email, otp, otp, now)
+      .run();
     const { data, error } = await resend.emails.send({
       from: "TDFKW 注册 <auth@tangdoufangkuaiwu.top>",
       to: [email],
