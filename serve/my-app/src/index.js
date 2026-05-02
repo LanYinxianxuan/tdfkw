@@ -93,14 +93,16 @@ app.post("/api/validateRegisterCode", async (c) => {
 // 发送邮箱验证码 (使用 Resend)
 app.post("/api/send-otp", async (c) => {
   try {
-    const { email } = await c.req.json();
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const now = new Date().toISOString();
+    const { email, code } = await c.req.json();
+    const otp = Math.floor(100000 + Math.random() * 900000);
+   const now = new Date();                                                     
+   const expiresAt = new Date(now.getTime() + 10 * 60 * 1000).toISOString();
     await c.env.db
       .prepare(
-        "INSERT INTO email_verifications (email, code, otp_code, expires_at) VALUES(?,?,?,?)",
+        "INSERT OR REPLACE INTO email_verifications (email, code, otp_code, expires_at) VALUES(?,?,?,?)"    ,
       )
-      .bind(email, otp, otp, now)
+      .bind(email, code, String(otp), expiresAt)
+
       .run();
     const { data, error } = await resend.emails.send({
       from: "TDFKW 注册 <auth@tangdoufangkuaiwu.top>",
@@ -116,11 +118,15 @@ app.post("/api/send-otp", async (c) => {
       return c.json(error, 400);
     }
 
-    return c.json(data);
+    return c.json({ valid: true, id: data?.id });
   } catch (error) {
     return c.json({ valid: false, error: error.message }, 500);
   }
 });
+// {
+//     "valid": false,
+//     "error": "D1_ERROR: UNIQUE constraint failed: email_verifications.email: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_PRIMARYKEY)"
+// }
 
 // 检验验证码并注册
 app.post("/api/check-otp", async (c) => {
@@ -132,7 +138,7 @@ app.post("/api/check-otp", async (c) => {
       .prepare(
         "SELECT * FROM email_verifications WHERE email = ? AND code = ? AND otp_code = ? AND expires_at > ?",
       )
-      .bind(email, code, otp, now)
+      .bind(email, code, String(otp), now)
       .first();
 
     if (opt_code) {

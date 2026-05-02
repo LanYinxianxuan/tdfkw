@@ -44,7 +44,6 @@ const sendCode = async () => {
       body: JSON.stringify({
         email: email.value,
         code: code.value,
-        otp: otpCode.value,
       }),
     })
 

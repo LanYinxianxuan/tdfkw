@@ -18,13 +18,13 @@ const logout = () => {
     <div class="nav">
       <ul>
         <li v-if="userStore.isLoggedIn">
-          <a href="#" @click.prevent="logout" class="avatar-link">
+          <RouterLink to="/dashboard" class="avatar-link">
             <img
               :src="`https://q.qlogo.cn/g?b=qq&nk=${userStore.user?.qq}&s=100`"
               alt="avatar"
               class="avatar"
             />
-          </a>
+          </RouterLink>
         </li>
         <li>
           <a href="/docs/index.md" target="_blank" rel="noopener noreferrer">
