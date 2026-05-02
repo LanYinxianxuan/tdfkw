@@ -14,7 +14,7 @@ const email = ref('')
 const qq = ref('')
 
 const username = ref('')
-const optCode = ref('')
+const otpCode = ref('')
 const password = ref('')
 const isLoading = ref(false)
 const countdown = ref(0)
@@ -44,11 +44,11 @@ const sendCode = async () => {
       body: JSON.stringify({
         email: email.value,
         code: code.value,
-        qq: qq.value,
+        otp: otpCode.value,
       }),
     })
 
-    if (data.success) {
+    if (data.valid) {
       alert('✓ 验证码已发送到您的邮箱，请查收（有效期10分钟）')
       // 开启60秒倒计时
       countdown.value = 60
@@ -82,7 +82,7 @@ const checkCodeARegister = async () => {
     alert('请输入邮箱')
     return
   }
-  if (!optCode.value) {
+  if (!otpCode.value) {
     alert('请输入验证码')
     return
   }
@@ -100,7 +100,7 @@ const checkCodeARegister = async () => {
       body: JSON.stringify({
         code: code.value,
         email: email.value,
-        otp: optCode.value,
+        otp: otpCode.value,
         password: hashPassword,
         username: username.value,
         qq: qq.value,
@@ -135,7 +135,7 @@ const checkCodeARegister = async () => {
       <input type="email" v-model="email" :disabled="isLoading" />
       <label for=""> 邮箱验证码 </label>
       <div class="input-with-button">
-        <input type="text" v-model="optCode" :disabled="isLoading" />
+        <input type="text" v-model="otpCode" :disabled="isLoading" />
         <span
           class="send-btn"
           @click="sendCode"

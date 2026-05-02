@@ -1,7 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { Resend } from "resend";
 
 const app = new Hono();
+const resend = new Resend("re_MWDp8Hb1_HwXqkGPJXPT15TxiNYh2dM74");
 
 app.use("/*", cors());
 
@@ -45,7 +47,6 @@ app.on("GET", "/api/init", async (c) => {
       CREATE TABLE IF NOT EXISTS email_verifications (
         email TEXT PRIMARY KEY,
         code TEXT NOT NULL,
-        qq TEXT NOT NULL,
         otp_code TEXT NOT NULL,
         expires_at DATETIME NOT NULL
       )
@@ -89,9 +90,35 @@ app.post("/api/validateRegisterCode", async (c) => {
   }
 });
 
-// 发送邮箱验证码 (使用 Mailchannels API)
+// 发送邮箱验证码 (使用 Resend)
 app.post("/api/send-otp", async (c) => {
-  
+  try {
+    const { email } = await c.req.json();
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const now = new Date().toISOString();
+    await c.env.db.prepare(
+      "INSERT INTO email_verifications (email,code,otp_code,expires_id) VALUES(?,?,?,?)"
+        .bind(email, otp, now)
+        .run(),
+    );
+    const { data, error } = await resend.emails.send({
+      from: "TDFKW 注册 <auth@tangdoufangkuaiwu.top>",
+      to: [email],
+      template: {
+        id: "otp",
+        variables: {
+          otp: otp,
+        },
+      },
+    });
+    if (error) {
+      return c.json(error, 400);
+    }
+
+    return c.json(data);
+  } catch (error) {
+    return c.json({ valid: false, error: error.message }, 500);
+  }
 });
 
 // 检验验证码并注册
@@ -102,9 +129,9 @@ app.post("/api/check-otp", async (c) => {
 
     const opt_code = await c.env.db
       .prepare(
-        "SELECT * FROM email_verifications WHERE email = ? AND code = ? AND qq = ? AND otp_code = ? AND expires_at > ?",
+        "SELECT * FROM email_verifications WHERE email = ? AND code = ? AND otp_code = ? AND expires_at > ?",
       )
-      .bind(email, code, qq, otp, now)
+      .bind(email, code, otp, now)
       .first();
 
     if (opt_code) {
