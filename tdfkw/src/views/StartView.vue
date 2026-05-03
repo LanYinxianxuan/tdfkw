@@ -53,8 +53,7 @@ const login = async () => {
 <style scoped>
 .app {
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  height: calc(100vh - 60px);
 }
 
 .logIn,
@@ -68,20 +67,18 @@ const login = async () => {
 }
 
 .logIn {
-  background: var(--bg-primary, #ffffff);
-  border-right: 1px solid var(--border-color, #e0e0e0);
+  background: var(--color-bg);
+  border-right: 1px solid var(--color-border);
 }
 
 .register {
-  background: var(--bg-secondary, #f5f5f5);
+  background: var(--color-bg-secondary);
 }
 
 .logIn h2,
 .register h2 {
   margin-bottom: 2rem;
-  color: var(--text-primary, #1a1a1a);
   font-size: 1.5rem;
-  font-weight: 600;
 }
 
 .logIn input {
@@ -94,10 +91,10 @@ const login = async () => {
 .login-btn {
   display: inline-block;
   padding: 0.7rem 2rem;
-  background: var(--accent, #1a1a1a);
-  color: var(--bg-primary, #ffffff);
+  background: var(--color-accent);
+  color: var(--color-bg);
   text-decoration: none;
-  border-radius: var(--radius-sm, 2px);
+  border-radius: var(--radius-sm);
   margin-top: 1rem;
   font-size: 0.95rem;
   font-weight: 500;
@@ -107,6 +104,6 @@ const login = async () => {
 .logIn a:hover,
 .register a:hover,
 .login-btn:hover {
-  background: var(--accent-hover, #000000);
+  background: var(--color-accent-hover);
 }
 </style>

@@ -162,15 +162,14 @@ const checkCodeARegister = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: var(--bg-secondary, #f5f5f5);
+  min-height: calc(100vh - 60px);
 }
 
 form {
-  background: var(--bg-primary, #ffffff);
+  background: var(--color-bg);
   padding: 2.5rem;
-  border-radius: var(--radius-md, 4px);
-  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
   max-width: 400px;
   width: 90%;
   display: flex;
@@ -179,21 +178,18 @@ form {
 }
 
 form h2 {
-  margin: 0 0 1.5rem 0;
-  color: var(--text-primary, #1a1a1a);
+  margin: 0 0 1.5rem;
   text-align: center;
   font-size: 1.3rem;
-  font-weight: 600;
 }
 
 label {
-  color: var(--text-primary, #1a1a1a);
   font-weight: 500;
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
 
-label:first-child {
+label:first-of-type {
   margin-top: 0;
 }
 
@@ -201,12 +197,10 @@ input[type='text'],
 input[type='email'],
 input[type='password'] {
   padding: 0.6rem 0.8rem;
-  border: 1px solid var(--border-color, #e0e0e0);
-  border-radius: var(--radius-sm, 2px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   margin-bottom: 0;
-  transition:
-    border-color 0.2s,
-    opacity 0.2s;
+  transition: border-color 0.2s, opacity 0.2s;
 }
 
 input[type='text']:disabled,
@@ -214,7 +208,7 @@ input[type='email']:disabled,
 input[type='password']:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background: var(--bg-secondary, #f5f5f5);
+  background: var(--color-bg-secondary);
 }
 
 .input-with-button {
@@ -230,25 +224,23 @@ input[type='password']:disabled {
 .send-btn {
   position: absolute;
   right: 10px;
-  color: var(--text-secondary, #666);
+  color: var(--color-text-secondary);
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 500;
   user-select: none;
   padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-sm, 2px);
-  transition:
-    color 0.2s,
-    background 0.2s;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background 0.2s;
 }
 
 .send-btn:hover:not(.disabled) {
-  color: var(--text-primary, #1a1a1a);
-  background: var(--bg-tertiary, #e8e8e8);
+  color: var(--color-text);
+  background: var(--color-bg-tertiary);
 }
 
 .send-btn.disabled {
-  color: #999;
+  color: var(--color-text-muted);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -256,15 +248,13 @@ input[type='password']:disabled {
 input[type='button'] {
   margin-top: 0.5rem;
   padding: 0.6rem;
-  background: var(--accent, #1a1a1a);
-  color: white;
+  background: var(--color-accent);
+  color: var(--color-bg);
   border: none;
-  border-radius: var(--radius-sm, 2px);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-weight: 500;
-  transition:
-    opacity 0.2s,
-    background 0.2s;
+  transition: opacity 0.2s, background 0.2s;
 }
 
 input[type='button']:hover:not(:disabled) {
@@ -274,10 +264,6 @@ input[type='button']:hover:not(:disabled) {
 input[type='button']:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-input[type='button'].loading {
-  position: relative;
 }
 
 input[type='button'].loading::after {

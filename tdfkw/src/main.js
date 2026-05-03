@@ -8,12 +8,14 @@ import router from '@/router'
 
 import Nav from '@/components/NAV.vue'
 import { useUserStore } from '@/stores/user'
+import SecNav from './components/SecNav.vue'
 
 
 
 const app = createApp(App)
 
 app.component('AppNav', Nav)
+app.component('SecNav', SecNav)
 
 const pinia = createPinia()
 app.use(pinia)

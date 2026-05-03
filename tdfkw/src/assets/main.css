@@ -1,91 +1,156 @@
-* {
+/* ============================================
+   TDFKW 全局样式 & CSS 变量
+   使用方式：@import '@/assets/main.css'
+   ============================================ */
+
+/* ---- Reset ---- */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ---- CSS 变量（设计令牌） ---- */
 :root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --bg-tertiary: #e8e8e8;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666666;
-  --text-tertiary: #999999;
-  --border-color: #e0e0e0;
-  --border-dark: #333333;
-  --accent: #1a1a1a;
-  --accent-hover: #000000;
+  /* 背景 */
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-tertiary: #e8e8e8;
+
+  /* 文字 */
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+
+  /* 边框 */
+  --color-border: #e0e0e0;
+  --color-border-strong: #949494;
+
+  /* 强调 / 按钮 */
+  --color-accent: #1a1a1a;
+  --color-accent-hover: #000000;
+
+  /* 圆角 */
   --radius-sm: 2px;
   --radius-md: 4px;
   --radius-lg: 6px;
+
+  /* 间距 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
 }
 
+/* ---- 基础元素 ---- */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  color: var(--text-primary);
-  background: var(--bg-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg-secondary);
   line-height: 1.6;
 }
 
 a {
-  color: var(--text-primary);
+  color: var(--color-text);
   text-decoration: none;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='password'] {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-size: 0.95rem;
-  transition: border-color 0.2s;
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  font-weight: 600;
 }
 
-input[type='text']:focus,
-input[type='email']:focus,
-input[type='password']:focus {
-  outline: none;
-  border-color: var(--border-dark);
+/* ---- 卡片（白底 + 边框 + 圆角） ---- */
+.card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
 }
 
-input[type='text']::placeholder,
-input[type='email']::placeholder,
-input[type='password']::placeholder {
-  color: var(--text-tertiary);
+/* ---- 居中容器（垂直水平居中） ---- */
+.page-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
 }
 
-button,
-input[type='button'],
-.btn {
+/* ---- 弹性列 ---- */
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- 按钮（主按钮） ---- */
+.btn-primary {
   display: inline-block;
   padding: 0.7rem 1.4rem;
-  background: var(--accent);
-  color: var(--bg-primary);
+  background: var(--color-accent);
+  color: var(--color-bg);
   border: none;
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
+  text-decoration: none;
 }
-
-button:hover,
-input[type='button']:hover,
-.btn:hover {
-  background: var(--accent-hover);
+.btn-primary:hover {
+  background: var(--color-accent-hover);
 }
-
-button:active,
-input[type='button']:active,
-.btn:active {
+.btn-primary:active {
   transform: scale(0.98);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-primary);
-  font-weight: 600;
+/* ---- 表单输入 ---- */
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus {
+  outline: none;
+  border-color: var(--color-border-strong);
+}
+input[type='text']::placeholder,
+input[type='email']::placeholder,
+input[type='password']::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ---- 表单卡片（居中白色表单容器） ---- */
+.form-card {
+  background: var(--color-bg);
+  padding: 2.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  max-width: 440px;
+  width: 90%;
+}
+.form-card h2 {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+/* ---- 分段虚线 ---- */
+.divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 8px 0;
 }

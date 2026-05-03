@@ -1,0 +1,5 @@
+node_modules/
+dist/
+
+# Claude Code configuration (contains API keys)
+.claude/
