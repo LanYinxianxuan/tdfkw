@@ -384,6 +384,17 @@ export const useConfigStore = defineStore('config', () => {
 | 头像图 | `border-radius: 50%; border: 1px solid var(--color-border);` |
 | 灰色文字 | `color: var(--color-text-secondary);` |
 
+## 生成 Git 分支图
+
+项目自带一个脚本，可以将 `git log --graph` 导出为深色主题的 PNG 长图：
+
+```bash
+./generate-git-graph.sh          # 输出 git-graph.png
+./generate-git-graph.sh out.png  # 指定文件名
+```
+
+**依赖**：`git`、`aha`、`chromium`、`python3`（Pillow + numpy）。脚本可复制到其他仓库通用。
+
 ## 参与开发
 
 - **Email**: lanyinxianxuan@163.com
