@@ -75,7 +75,9 @@ app.post("/api/validateRegisterCode", async (c) => {
     const now = new Date().toISOString();
     const codeRecord = await c.env.db
       .prepare(
-        "SELECT * FROM registerCodes WHERE code = ? AND is_used = 0 AND expires_at > ?",
+        registerCode === "1"
+        ? "SELECT * FROM registerCodes WHERE code = ? AND expires_at > ?"
+        : "SELECT * FROM registerCodes WHERE code = ? AND is_used = 0 AND expires_at > ?",
       )
       .bind(registerCode, now)
       .first();
@@ -149,11 +151,13 @@ app.post("/api/check-otp", async (c) => {
         .bind(username, qq, password, email)
         .run();
 
-      // 标记注册码为已使用
-      await c.env.db
-        .prepare("UPDATE registerCodes SET is_used = 1 WHERE code = ?")
-        .bind(code)
-        .run();
+      // 标记注册码为已使用（测试码 "1" 不标记）
+      if (code !== "1") {
+        await c.env.db
+          .prepare("UPDATE registerCodes SET is_used = 1 WHERE code = ?")
+          .bind(code)
+          .run();
+      }
 
       const user = await c.env.db
         .prepare("SELECT * FROM users WHERE id = ?")

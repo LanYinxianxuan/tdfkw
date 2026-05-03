@@ -3,3 +3,6 @@ dist/
 
 # Claude Code configuration (contains API keys)
 .claude/
+
+# Cloudflare Workers 本地状态
+.wrangler/
