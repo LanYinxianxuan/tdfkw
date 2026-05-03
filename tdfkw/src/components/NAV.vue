@@ -3,10 +3,6 @@ import { RouterLink } from 'vue-router'
 import { useUserStore } from '../stores/user'
 
 const userStore = useUserStore()
-
-const logout = () => {
-  userStore.logout()
-}
 </script>
 <template>
   <nav>
@@ -17,15 +13,6 @@ const logout = () => {
     </div>
     <div class="nav">
       <ul>
-        <li v-if="userStore.isLoggedIn">
-          <a href="#" @click.prevent="logout" class="avatar-link">
-            <img
-              :src="`https://q.qlogo.cn/g?b=qq&nk=${userStore.user?.qq}&s=100`"
-              alt="avatar"
-              class="avatar"
-            />
-          </a>
-        </li>
         <li>
           <a href="/docs/index.md" target="_blank" rel="noopener noreferrer">
             <svg t="1748073854834" class="icon" viewBox="0 0 1024 1024" width="15" height="15">
@@ -62,19 +49,28 @@ const logout = () => {
             <span>关于</span>
           </RouterLink>
         </li>
+        <li v-if="userStore.isLoggedIn">
+          <RouterLink to="/dashboard" class="avatar-link">
+            <img
+              :src="`https://q.qlogo.cn/g?b=qq&nk=${userStore.user?.qq}&s=100`"
+              alt="avatar"
+              class="avatar"
+            />
+          </RouterLink>
+        </li>
       </ul>
     </div>
   </nav>
 </template>
-<style>
+<style scoped>
 nav {
-  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  border-bottom: 1px solid var(--color-border, #e0e0e0);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
   height: 60px;
-  background: var(--bg-primary, #ffffff);
+  background: var(--color-bg, #ffffff);
 }
 
 img {
@@ -99,7 +95,7 @@ img {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: var(--text-secondary, #666);
+  color: var(--color-text-secondary, #666);
   padding: 0.5rem 0.8rem;
   border-radius: var(--radius-sm, 2px);
   font-size: 0.9rem;
@@ -107,8 +103,8 @@ img {
 }
 
 .nav a:hover {
-  color: var(--text-primary, #1a1a1a);
-  background: var(--bg-tertiary, #e8e8e8);
+  color: var(--color-text, #1a1a1a);
+  background: var(--color-bg-tertiary, #e8e8e8);
 }
 
 .nav a::after {
@@ -129,7 +125,7 @@ img {
   border-radius: 50%;
   cursor: pointer;
   transition: opacity 0.2s;
-  border: 1px solid var(--border-color, #e0e0e0);
+  border: 1px solid var(--color-border, #e0e0e0);
 }
 
 .avatar:hover {

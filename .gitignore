@@ -1,7 +1,8 @@
-# Ignore all node_modules folders
 node_modules/
+dist/
 
-# Ignore local editor and OS files
-.DS_Store
-.vscode/
-*.log
+# Claude Code configuration (contains API keys)
+.claude/
+
+# Cloudflare Workers 本地状态
+.wrangler/

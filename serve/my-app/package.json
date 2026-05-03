@@ -10,9 +10,10 @@
     "d1:query": "wrangler d1 execute tdfkw-db --command"
   },
   "dependencies": {
-    "hono": "^4.12.12"
+    "hono": "^4.12.12",
+    "resend": "^6.12.2"
   },
   "devDependencies": {
-    "wrangler": "^3.78.0"
+    "wrangler": "^4.84.1"
   }
 }

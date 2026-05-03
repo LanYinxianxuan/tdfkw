@@ -37,28 +37,15 @@
       </li>
     </ul>
   </section>
-  <footer class="footer">
-    <p class="rainyun-link">
-      本服务器，域名由
-      <a href="https://app.rainyun.com/" target="_blank" rel="noopener">
-        <img src="https://app.rainyun.com/img/logo.d193755d.png" alt="Rainyun" />
-        <span>Rainyun提供</span>
-      </a>
-    </p>
-    <p>网站搭建: lanyinxianxuan</p>
-    <p>网站维护: lanyinxuanxuan</p>
-    <p>联系我们: lanyinxianxuan@163.com</p>
-    <p>版权所有 &copy; 2024–2025 糖豆方块屋</p>
-  </footer>
 </template>
 
 <style scoped>
 .about-section {
   max-width: 700px;
   margin: 40px auto 60px;
-  background: var(--bg-primary, #ffffff);
+  background: var(--color-bg, #ffffff);
   border-radius: var(--radius-lg, 6px);
-  border: 1px solid var(--border-color, #e0e0e0);
+  border: 1px solid var(--color-border, #e0e0e0);
   padding: 36px 32px 28px;
   display: flex;
   flex-direction: column;
@@ -69,14 +56,14 @@
   text-align: center;
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
-  color: var(--text-primary, #1a1a1a);
+  color: var(--color-text, #1a1a1a);
   letter-spacing: 2px;
   font-weight: 600;
 }
 
 .content {
   font-size: 1rem;
-  color: var(--text-secondary, #666);
+  color: var(--color-text-secondary, #666);
   line-height: 1.8;
   margin-bottom: 2rem;
   text-align: center;
@@ -87,7 +74,7 @@
 }
 
 .content strong {
-  color: var(--text-primary, #1a1a1a);
+  color: var(--color-text, #1a1a1a);
   font-weight: 600;
 }
 
@@ -95,7 +82,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--text-primary, #1a1a1a);
+  color: var(--color-text, #1a1a1a);
 }
 
 .rainyun-link img {
@@ -103,7 +90,7 @@
 }
 
 .contact {
-  color: var(--text-primary, #1a1a1a);
+  color: var(--color-text, #1a1a1a);
 }
 
 .links {
@@ -124,35 +111,17 @@
 
 .links .label {
   min-width: 90px;
-  color: var(--text-primary, #1a1a1a);
+  color: var(--color-text, #1a1a1a);
   font-weight: 500;
 }
 
 .links a {
-  color: var(--text-secondary, #666);
+  color: var(--color-text-secondary, #666);
   transition: color 0.2s;
 }
 
 .links a:hover {
-  color: var(--text-primary, #1a1a1a);
+  color: var(--color-text, #1a1a1a);
 }
 
-.footer {
-  text-align: center;
-  padding: 2rem;
-  font-size: 0.85rem;
-  color: var(--text-tertiary, #999);
-}
-
-.footer p {
-  margin: 0.25rem 0;
-}
-
-.footer a {
-  color: var(--text-secondary, #666);
-}
-
-.footer a:hover {
-  color: var(--text-primary, #1a1a1a);
-}
 </style>

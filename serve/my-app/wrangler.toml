@@ -1,14 +1,11 @@
 name = "tdfkw"
 main = "src/index.js"
-compatibility_date = "2024-04-01"
+compatibility_date = "2026-04-28"
 
 [[d1_databases]]
 binding = "db"
 database_name = "tdfkw"
 database_id = "c85d9a70-bca6-45fe-8d5d-017211a2c8da"
-
-[vars]
-EMAIL_USER = "lanyinxianxuan@163.com"
 
 [observability]
 enabled = false

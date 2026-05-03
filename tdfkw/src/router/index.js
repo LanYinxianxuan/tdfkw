@@ -26,8 +26,28 @@ const router = createRouter({
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
       component: () => import('../views/DashboardView.vue'),
+      children: [
+        {
+          path: '',
+          name: 'dashboard',
+          component: () => import('../views/DashboardHomeView.vue'),
+        },
+        {
+          path: 'userdata',
+          name: 'userdata',
+          component: () => import('../views/UserDateView.vue'),
+        },
+        {
+          path: 'files',
+          name: 'files',
+          component: () => import('../views/FilesView.vue'),
+        },
+      ],
+    },
+    {
+      path: '/userdata',
+      redirect: '/dashboard/userdata',
     },
     {
       path: '/about',

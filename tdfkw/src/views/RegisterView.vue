@@ -1,4 +1,5 @@
 <script setup>
+import { request } from '@/utils/request'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -6,14 +7,14 @@ const router = useRouter()
 const registerCode = ref('')
 const postRegisterCode = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/validateRegisterCode', {
+    const response = await request('/api/validateRegisterCode', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ registerCode: registerCode.value }),
     })
-    const data = await response.json()
+    const data = await response
     // console.log('消息', data);
-    
+
     if (data.valid) {
       router.push(`/whitelist?code=${data.code}`)
       // 注册码有效，继续注册流程
@@ -48,51 +49,47 @@ const postRegisterCode = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: var(--bg-secondary, #f5f5f5);
+  min-height: calc(100vh - 60px);
 }
 
 .container {
-  background: var(--bg-primary, #ffffff);
+  background: var(--color-bg);
   padding: 2.5rem;
-  border-radius: var(--radius-md, 4px);
-  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
   max-width: 480px;
   width: 90%;
 }
 
 .container h2 {
-  margin: 0 0 1.5rem 0;
-  color: var(--text-primary, #1a1a1a);
+  margin: 0 0 1.5rem;
   text-align: center;
   font-size: 1.4rem;
-  font-weight: 600;
 }
 
 .container ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 2rem 0;
+  margin: 0 0 2rem;
 }
 
 .container li {
   margin-bottom: 0.75rem;
   padding: 0.8rem 1rem;
-  background: var(--bg-secondary, #f5f5f5);
-  border-left: 2px solid var(--accent, #1a1a1a);
-  border-radius: var(--radius-sm, 2px);
-  color: var(--text-secondary, #666);
+  background: var(--color-bg-secondary);
+  border-left: 2px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
 }
 
 .container li a {
-  color: var(--text-primary, #1a1a1a);
   font-weight: 500;
   transition: color 0.2s;
 }
 
 .container li a:hover {
-  color: var(--accent-hover, #000000);
+  color: var(--color-accent-hover);
 }
 
 .container li span {
