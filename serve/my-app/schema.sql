@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS email_verifications (
   email TEXT PRIMARY KEY,
   code TEXT NOT NULL,
-  qq TEXT NOT NULL,
   otp_code TEXT NOT NULL,
   expires_at DATETIME NOT NULL
 );

@@ -41,6 +41,7 @@ app.on("GET", "/api/init", async (c) => {
       .run();
 
     // 创建邮箱验证码表
+    await c.env.db.prepare("DROP TABLE IF EXISTS email_verifications").run();
     await c.env.db
       .prepare(
         `
