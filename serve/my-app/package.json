@@ -1,0 +1,19 @@
+{
+  "name": "tdfkw-api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "d1:create": "wrangler d1 create tdfkw-db",
+    "d1:execute": "wrangler d1 execute tdfkw-db --file=./schema.sql",
+    "d1:query": "wrangler d1 execute tdfkw-db --command"
+  },
+  "dependencies": {
+    "hono": "^4.12.12",
+    "resend": "^6.12.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4.84.1"
+  }
+}

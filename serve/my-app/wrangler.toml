@@ -1,0 +1,23 @@
+name = "tdfkw"
+main = "src/index.js"
+compatibility_date = "2026-04-28"
+
+[[d1_databases]]
+binding = "db"
+database_name = "tdfkw"
+database_id = "c85d9a70-bca6-45fe-8d5d-017211a2c8da"
+
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1
