@@ -2,24 +2,23 @@
 import { request } from '@/utils/request'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from '@/utils/toast.js'
 
 const router = useRouter()
+const toast = useToast()
 const registerCode = ref('')
 const postRegisterCode = async () => {
   try {
-    const response = await request('/api/validateRegisterCode', {
+    const { data } = await request('/api/validateRegisterCode', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ registerCode: registerCode.value }),
     })
-    const data = await response
-    // console.log('消息', data);
 
-    if (data.valid) {
-      router.push(`/whitelist?code=${data.code}`)
-      // 注册码有效，继续注册流程
+    if (data.success) {
+      router.push(`/whitelist?code=${data.data.code}`)
     } else {
-      alert('注册码无效或已过期')
+      toast.error(data.error || '注册码无效或已过期')
     }
   } catch (error) {
     console.error('Error validating register code:', error)

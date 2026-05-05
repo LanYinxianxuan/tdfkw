@@ -36,7 +36,7 @@ const router = createRouter({
         {
           path: 'userdata',
           name: 'userdata',
-          component: () => import('../views/UserDateView.vue'),
+          component: () => import('../views/UserDataView.vue'),
         },
         {
           path: 'files',

@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import { useUserStore } from '../stores/user'
 
 const userStore = useUserStore()
-const content = ref('巴巴爸爸吧巴巴爸爸')
+const content = ref('暂无公告')
+const sponsorContent = ref('暂无赞助信息')
 </script>
 <template>
   <div class="dashboard-row">
@@ -23,7 +24,7 @@ const content = ref('巴巴爸爸吧巴巴爸爸')
     <div class="panel card">
       <h1>赞助</h1>
       <hr class="divider" />
-      <p>{{ content }}</p>
+      <p>{{ sponsorContent }}</p>
     </div>
   </div>
 </template>

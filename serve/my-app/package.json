@@ -10,8 +10,11 @@
     "d1:query": "wrangler d1 execute tdfkw-db --command"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "hono": "^4.12.12",
-    "resend": "^6.12.2"
+    "jose": "^6.2.3",
+    "resend": "^6.12.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "wrangler": "^4.84.1"
