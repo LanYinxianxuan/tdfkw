@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 </script>
 <template>
   <router-view />
+  <AppToast />
   <footer class="site-footer">
     <p class="rainyun-link">
       本服务器，域名由
