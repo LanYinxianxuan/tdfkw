@@ -16,28 +16,224 @@
 | 文档站点 | VitePress |
 | 代码规范 | ESLint, Prettier, Oxlint |
 
+## 系统架构
+
+```mermaid
+graph TB
+    subgraph 用户["用户端"]
+        Browser["浏览器<br/>Vue 3 SPA"]
+    end
+
+    subgraph Cloudflare["Cloudflare Workers"]
+        API["Hono API<br/>routes/"]
+        subgraph 模块["后端模块"]
+            Auth["auth.js<br/>登录认证"]
+            Register["register.js<br/>注册 + OTP"]
+            Init["init.js<br/>数据库初始化"]
+            Me["me.js<br/>用户信息"]
+        end
+        subgraph 中间件["中间件"]
+            CORS["cors.js"]
+            AuthMW["auth.js<br/>JWT 验证"]
+        end
+    end
+
+    subgraph 数据层["数据层"]
+        D1[("Cloudflare D1<br/>SQLite")]
+    end
+
+    subgraph 外部["外部服务"]
+        Resend["Resend<br/>邮件发送"]
+    end
+
+    Browser -->|"fetch + JWT"| API
+    API --> 模块
+    模块 --> 中间件
+    Auth -->|"bcryptjs 校验"| D1
+    Register -->|"OTP 发送"| Resend
+    Register -->|"用户 CRUD"| D1
+    Me -->|"查询用户"| D1
+
+    style Browser fill:#1a1a1a,color:#fff
+    style API fill:#22c55e,color:#000
+    style D1 fill:#3b82f6,color:#fff
+    style Resend fill:#f59e0b,color:#000
+```
+
+## 用户注册流程
+
+```mermaid
+sequenceDiagram
+    actor 玩家
+    participant Frontend as Vue 前端
+    participant API as Hono API
+    participant D1 as Cloudflare D1
+    participant Resend as Resend 邮件
+
+    玩家->>Frontend: 输入注册码
+    Frontend->>API: POST /api/validateRegisterCode
+    API->>D1: 查询注册码是否有效
+    alt 注册码无效/已过期
+        API-->>Frontend: {success:false, error:"..."}
+        Frontend-->>玩家: Toast 错误提示
+    else 注册码有效
+        API-->>Frontend: {success:true, data:{code}}
+        玩家->>Frontend: 填写用户名/QQ/邮箱/密码
+        Frontend->>API: POST /api/send-otp
+        API->>D1: 检查限流（60s/5次-h）
+        API->>Resend: 发送6位验证码邮件
+        Resend-->>API: 发送成功
+        API->>D1: 存储 OTP（10分钟有效）
+        API-->>Frontend: {success:true}
+        Frontend-->>玩家: Toast "验证码已发送"
+        玩家->>Frontend: 输入邮箱验证码
+        Frontend->>API: POST /api/check-otp
+        API->>D1: 验证 OTP
+        Note right of API: 密码 SHA256 + bcrypt 双重哈希
+        API->>D1: 创建用户
+        API->>D1: 标记注册码已使用
+        API-->>Frontend: {success:true, data:{token, user}}
+        Frontend->>Frontend: localStorage 存 JWT
+        Frontend-->>玩家: 跳转 Dashboard
+    end
+```
+
+## 登录认证流程
+
+```mermaid
+sequenceDiagram
+    actor 玩家
+    participant Frontend as Vue 前端
+    participant API as Hono API
+    participant D1 as Cloudflare D1
+
+    玩家->>Frontend: 输入用户名/密码
+    Note right of Frontend: 密码 SHA256 哈希（不传明文）
+    Frontend->>API: POST /api/login<br/>{username, password:SHA256}
+    API->>D1: 查询用户
+    D1-->>API: 用户记录
+    Note right of API: bcryptjs.compare(SHA256, stored_bcrypt)
+    alt 密码不匹配
+        API-->>Frontend: {success:false, error:"用户名或密码错误"}
+        Frontend-->>玩家: Toast 错误
+    else 密码正确
+        Note right of API: jose 签发 JWT（7天有效）
+        API-->>Frontend: {success:true, data:{token, user}}
+        Frontend->>Frontend: localStorage 存 token + user
+        Frontend-->>玩家: 跳转 Dashboard
+    end
+```
+
+## 前端路由与组件树
+
+```mermaid
+graph LR
+    App["App.vue"] --> Router["&lt;router-view&gt;"]
+    App --> Toast["AppToast 全局通知"]
+    App --> Footer["全局 Footer"]
+
+    Router --> Home["/ HomeView"]
+    Router --> Start["/start StartView<br/>登录"]
+    Router --> Register["/register RegisterView<br/>注册码验证"]
+    Router --> Whitelist["/whitelist WhitelistView<br/>邮箱注册"]
+    Router --> Dashboard["/dashboard DashboardView<br/>登录守卫"]
+    Router --> About["/about AboutView"]
+    Router --> Contact["/contact ContactView"]
+
+    Dashboard --> DashHome["/dashboard/ DashboardHomeView"]
+    Dashboard --> UserData["/dashboard/userdata UserDataView"]
+    Dashboard --> Files["/dashboard/files FilesView"]
+
+    Start --> UserStore["userStore<br/>Pinia + localStorage"]
+    Register --> UserStore
+    Whitelist --> UserStore
+
+    Home --> AppNav["AppNav 全局导航"]
+    Start --> AppNav
+    Register --> AppNav
+    Whitelist --> AppNav
+    About --> AppNav
+    Contact --> AppNav
+    Dashboard --> AppNav
+    Dashboard --> SecNav["SecNav 侧边栏"]
+
+    style App fill:#1a1a1a,color:#fff
+    style UserStore fill:#8b5cf6,color:#fff
+    style Router fill:#22c55e,color:#000
+```
+
+## API 请求流（带 JWT）
+
+```mermaid
+flowchart LR
+    View["Vue 组件"] -->|"调用"| Req["request()"]
+    Req -->|"取 localStorage token"| Header["Authorization:<br/>Bearer xxx"]
+    Header -->|"fetch"| API["Hono API"]
+
+    API -->|"公开路由"| Public["login / register<br/>validate / send-otp"]
+    API -->|"受保护路由"| AuthMW["authMiddleware"]
+    AuthMW -->|"jwtVerify"| Valid{Token 有效?}
+    Valid -->|"是"| Protected["/api/me<br/>返回用户信息"]
+    Valid -->|"否"| Reject["401 未登录"]
+
+    Protected -->|"返回"| Req
+    Public -->|"返回"| Req
+    Reject -->|"返回"| Req
+    Req -->|"解析 JSON"| View
+
+    style View fill:#1a1a1a,color:#fff
+    style API fill:#22c55e,color:#000
+    style AuthMW fill:#f59e0b,color:#000
+    style Reject fill:#ef4444,color:#fff
+```
+
 ## 项目结构
 
 ```
 tdfkw/
-├── tdfkw/                  # Vue 3 前端应用
+├── tdfkw/                       # Vue 3 前端应用
 │   ├── src/
-│   │   ├── main.js         # 入口文件
-│   │   ├── App.vue         # 根组件
-│   │   ├── router/         # 路由配置
-│   │   ├── stores/         # Pinia 状态管理
-│   │   ├── utils/          # 工具函数（请求封装）
-│   │   ├── views/          # 页面组件
-│   │   └── components/     # 公共组件
-│   ├── .env                # 环境变量（API 地址）
+│   │   ├── main.js              # 入口文件，注册全局组件
+│   │   ├── App.vue              # 根组件：router-view + Toast + footer
+│   │   ├── router/index.js      # 路由配置（8条路由，懒加载）
+│   │   ├── stores/user.js       # Pinia 用户状态（JWT + localStorage）
+│   │   ├── utils/
+│   │   │   ├── request.js       # fetch 封装（自动带 JWT）
+│   │   │   └── toast.js         # 全局 Toast 通知
+│   │   ├── views/               # 10 个页面组件
+│   │   │   ├── HomeView.vue     ├── StartView.vue
+│   │   │   ├── RegisterView.vue ├── WhitelistView.vue
+│   │   │   ├── DashboardView.vue├── DashboardHomeView.vue
+│   │   │   ├── UserDataView.vue ├── FilesView.vue
+│   │   │   ├── AboutView.vue    └── ContactView.vue
+│   │   └── components/
+│   │       ├── NAV.vue          # 顶部导航（全局注册 AppNav）
+│   │       ├── SecNav.vue       # 侧边栏（全局注册 SecNav）
+│   │       └── AppToast.vue     # Toast 通知组件
+│   ├── .env / .env.production   # 环境变量（API 地址）
 │   └── vite.config.js
-├── serve/my-app/           # Hono 后端 API
-│   ├── src/index.js        # API 入口（所有路由）
-│   ├── schema.sql          # 数据库 schema
-│   ├── wrangler.toml       # Cloudflare Workers 配置
-│   └── data.db             # 本地开发数据库
-├── docs/                   # VitePress 文档站点
-└── picture/                # 静态图片资源
+├── serve/my-app/                # Hono 后端 API
+│   ├── src/
+│   │   ├── index.js             # 入口，组合路由
+│   │   ├── routes/
+│   │   │   ├── auth.js          # POST /api/login
+│   │   │   ├── register.js      # 注册码验证 / OTP / 注册
+│   │   │   ├── init.js          # GET /api/init
+│   │   │   ├── me.js            # GET /api/me（JWT 保护）
+│   │   │   └── health.js        # GET /
+│   │   ├── middleware/
+│   │   │   ├── cors.js          # CORS 中间件
+│   │   │   └── auth.js          # JWT 验证中间件
+│   │   ├── utils/
+│   │   │   ├── response.js      # 统一响应辅助函数
+│   │   │   ├── jwt.js           # JWT 签发与验证
+│   │   │   └── resend.js        # Resend 客户端工厂
+│   │   └── validation.js        # Zod 输入校验 schemas
+│   ├── schema.sql               # 数据库 schema 参考
+│   ├── wrangler.toml            # Cloudflare Workers + D1 配置
+│   └── .dev.vars.example        # 本地密钥模板
+├── docs/                        # VitePress 文档站点
+└── picture/                     # 静态图片资源
 ```
 
 ## 快速开始
@@ -74,14 +270,15 @@ npm run docs:dev
 
 ## API 接口
 
-| 方法 | 路径 | 说明 |
-|---|---|---|
-| `GET` | `/` | 健康检查 |
-| `GET` | `/api/init` | 初始化数据库表 |
-| `POST` | `/api/validateRegisterCode` | 验证注册码 |
-| `POST` | `/api/send-otp` | 发送邮箱验证码 |
-| `POST` | `/api/check-otp` | 校验验证码并注册 |
-| `POST` | `/api/login` | 用户登录 |
+| 方法 | 路径 | 鉴权 | 说明 |
+|---|---|---|---|---|
+| `GET` | `/` | 无 | 健康检查 |
+| `GET` | `/api/init` | 无 | 初始化数据库表 |
+| `POST` | `/api/validateRegisterCode` | 无 | 验证注册码 |
+| `POST` | `/api/send-otp` | 无 | 发送邮箱验证码（含限流） |
+| `POST` | `/api/check-otp` | 无 | 校验 OTP 并注册，返回 JWT |
+| `POST` | `/api/login` | 无 | 用户登录，返回 JWT |
+| `GET` | `/api/me` | JWT | 获取当前用户信息 |
 
 ## 服务器信息
 
