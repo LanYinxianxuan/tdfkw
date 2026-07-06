@@ -1,0 +1,4 @@
+RESEND_API_KEY=re_key
+JWT_SECRET=your-secret-key-change-me
+MONITOR_TOKEN=tdfkw-monitor-secret
+MONITOR_HOST=http://110.42.36.214:9100

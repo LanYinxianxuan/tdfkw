@@ -6,3 +6,12 @@ dist/
 
 # Cloudflare Workers 本地状态
 .wrangler/
+
+# 数据库文件
+*.sqlite
+*.db
+*.db-shm
+*.db-wal
+
+# 本地密钥
+.dev.vars
