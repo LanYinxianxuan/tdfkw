@@ -60,6 +60,42 @@ init.get('/init', async (c) => {
       .run()
 
     await c.env.db
+      .prepare(
+        `CREATE TABLE IF NOT EXISTS projects (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          description TEXT DEFAULT '',
+          status TEXT DEFAULT 'planning',
+          leader_id INTEGER,
+          creator_id INTEGER NOT NULL,
+          planner TEXT DEFAULT '',
+          address TEXT DEFAULT '',
+          schematic_url TEXT DEFAULT '',
+          start_date TEXT,
+          expected_end_date TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (leader_id) REFERENCES users(id),
+          FOREIGN KEY (creator_id) REFERENCES users(id)
+        )`,
+      )
+      .run()
+
+    await c.env.db
+      .prepare(
+        `CREATE TABLE IF NOT EXISTS project_members (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          project_id INTEGER NOT NULL,
+          user_id INTEGER NOT NULL,
+          role TEXT DEFAULT 'member',
+          joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+          FOREIGN KEY (user_id) REFERENCES users(id),
+          UNIQUE(project_id, user_id)
+        )`,
+      )
+      .run()
+
+    await c.env.db
       .prepare(`INSERT OR IGNORE INTO registerCodes (code, expires_at, is_used) VALUES (?, ?, ?)`)
       .bind('1', '2099-12-31T23:59:59.000Z', 0)
       .run()

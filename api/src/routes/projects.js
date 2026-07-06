@@ -7,7 +7,7 @@ const projects = new Hono()
 // GET /api/projects — 工程列表（公开）
 projects.get('/projects', async (c) => {
   try {
-    const rows = await c.env.db
+    const { results } = await c.env.db
       .prepare(`
         SELECT p.*, u.username AS leader_name, cu.username AS creator_name,
           (SELECT COUNT(*) FROM project_members WHERE project_id = p.id) AS member_count
@@ -17,7 +17,7 @@ projects.get('/projects', async (c) => {
         ORDER BY p.created_at DESC
       `)
       .all()
-    return success(c, rows)
+    return success(c, results)
   } catch (e) {
     return error(c, e.message, 500)
   }
@@ -40,7 +40,7 @@ projects.get('/projects/:id', async (c) => {
 
     if (!project) return error(c, '工程不存在', 404)
 
-    const members = await c.env.db
+    const { results: members } = await c.env.db
       .prepare(`
         SELECT pm.*, u.username, u.qq
         FROM project_members pm
