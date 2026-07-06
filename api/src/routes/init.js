@@ -42,6 +42,24 @@ init.get('/init', async (c) => {
       .run()
 
     await c.env.db
+      .prepare(
+        `CREATE TABLE IF NOT EXISTS files (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          author TEXT NOT NULL,
+          introduction TEXT DEFAULT '',
+          filename TEXT NOT NULL,
+          mime_type TEXT NOT NULL DEFAULT 'application/octet-stream',
+          size INTEGER NOT NULL DEFAULT 0,
+          data BLOB,
+          uploader_id INTEGER NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (uploader_id) REFERENCES users(id)
+        )`,
+      )
+      .run()
+
+    await c.env.db
       .prepare(`INSERT OR IGNORE INTO registerCodes (code, expires_at, is_used) VALUES (?, ?, ?)`)
       .bind('1', '2099-12-31T23:59:59.000Z', 0)
       .run()

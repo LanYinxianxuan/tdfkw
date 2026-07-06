@@ -21,13 +21,13 @@ function base64ToBytes(base64) {
 // GET /api/files — 获取所有档案列表（公开）
 files.get('/files', async (c) => {
   try {
-    const rows = await c.env.db
+    const { results } = await c.env.db
       .prepare(
         'SELECT id, name, author, introduction, filename, mime_type, size, uploader_id, created_at FROM files ORDER BY created_at DESC',
       )
       .all()
 
-    return success(c, rows)
+    return success(c, results)
   } catch (e) {
     return error(c, e.message, 500)
   }
