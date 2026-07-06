@@ -1,0 +1,25 @@
+{
+  "name": "tdfkw-api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:node": "node src/dev-server.js",
+    "deploy": "wrangler deploy",
+    "d1:create": "wrangler d1 create tdfkw-db",
+    "d1:execute": "wrangler d1 execute tdfkw-db --file=./schema.sql",
+    "d1:query": "wrangler d1 execute tdfkw-db --command"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "hono": "^4.12.12",
+    "jose": "^6.2.3",
+    "resend": "^6.12.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^2.0.6",
+    "better-sqlite3": "^12.11.1",
+    "wrangler": "^4.84.1"
+  }
+}
