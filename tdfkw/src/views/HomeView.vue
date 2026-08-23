@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
 }
-  .start{
+.start{
    border-radius: 32px;
   }
 
