@@ -93,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--color-accent);
   color: var(--color-bg);
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;

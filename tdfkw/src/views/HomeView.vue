@@ -15,9 +15,7 @@
   display: flex;
   flex-direction: column;
 }
-.start {
-  border-radius: var(--radius-lg);
-}
+
 .hero {
   display: flex;
   flex-direction: column;
