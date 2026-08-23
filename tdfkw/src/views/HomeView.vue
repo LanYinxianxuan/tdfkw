@@ -5,7 +5,7 @@
     <div class="hero">
       <h1>欢迎来到糖豆方块屋</h1>
       <p>我们是糖豆方块屋，一个由学生们运营的我的世界生电服务器</p>
-      <button @click="$router.push('/start')" id="start">现在开始</button>
+      <button @click="$router.push('/start')" class="start">现在开始</button>
     </div>
   </div>
   <div class="footer-band"></div>
@@ -15,8 +15,8 @@
   display: flex;
   flex-direction: column;
 }
-#start {
-   border-radius: 16px;
+.start {
+  border-radius: 32px;
 }
 .hero {
   display: flex;
