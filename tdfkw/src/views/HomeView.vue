@@ -16,7 +16,7 @@
   flex-direction: column;
 }
 .start {
-  border-radius: 32px;
+  border-radius: var(--radius-lg);
 }
 .hero {
   display: flex;
