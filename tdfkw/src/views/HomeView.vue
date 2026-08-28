@@ -15,9 +15,6 @@
   display: flex;
   flex-direction: column;
 }
-.start{
-   border-radius: 32px;
-  }
 
 .hero {
   display: flex;
@@ -48,7 +45,7 @@
   background: var(--color-accent);
   color: var(--color-bg);
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
