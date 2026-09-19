@@ -6,13 +6,6 @@
   <section class="about-section">
     <h2>关于糖豆方块屋</h2>
     <div class="content">
-      <p class="rainyun-link">
-        本服务器，域名由
-        <a href="https://app.rainyun.com/" target="_blank" rel="noopener">
-          <img src="https://app.rainyun.com/img/logo.d193755d.png" alt="Rainyun" />
-          <span>Rainyun提供</span>
-        </a>
-      </p>
       <p>糖豆方块屋致力于为玩家提供优质游戏资源、文档与交流空间。</p>
       <p>专注Minecraft相关内容，包括服务器、皮肤、插件、模组等。</p>
       <p>网站由 <strong>lanyinxianxuan</strong> 搭建与维护，欢迎提出宝贵建议。</p>
@@ -76,17 +69,6 @@
 .content strong {
   color: var(--color-text, #1a1a1a);
   font-weight: 600;
-}
-
-.rainyun-link a {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--color-text, #1a1a1a);
-}
-
-.rainyun-link img {
-  height: 18px;
 }
 
 .contact {

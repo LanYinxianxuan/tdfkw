@@ -4,33 +4,37 @@ import { useUserStore } from '../stores/user'
 import CryptoJS from 'crypto-js'
 import router from '@/router'
 import { request } from '@/utils/request'
+import { useToast } from '@/utils/toast.js'
 
 const userStore = useUserStore()
+const toast = useToast()
 
 const username = ref('')
 const password = ref('')
+const isLoading = ref(false)
 
 const login = async () => {
+  isLoading.value = true
   try {
     const hashPassword = CryptoJS.SHA256(password.value).toString()
-    const response = await request('/api/login', {
+    const { ok, data } = await request('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: username.value, password: hashPassword }),
     })
-    const data = await response
-    if (response.ok && data.success) {
-      userStore.setUser(data.user)
-      // 登录成功，导航栏自动显示头像
+    if (ok && data.success) {
+      userStore.setUser(data.data.user, data.data.token)
       username.value = ''
       password.value = ''
-      router.push(`/dashboard?userid=${data.user.id}`)
+      router.push(`/dashboard?userid=${data.data.user.id}`)
     } else {
-      alert(data.error || '登录失败')
+      toast.error(data.error || '登录失败')
     }
   } catch (error) {
     console.error('登录错误:', error)
-    alert('网络错误，请稍后重试')
+    toast.error('网络错误，请稍后重试')
+  } finally {
+    isLoading.value = false
   }
 }
 </script>
@@ -41,7 +45,9 @@ const login = async () => {
       <h2>登入糖豆方块屋</h2>
       <input type="text" v-model="username" placeholder="请输入用户名" />
       <input type="password" v-model="password" placeholder="请输入密码" />
-      <a @click="login" class="login-btn">登入</a>
+      <a @click="login" class="login-btn" :class="{ loading: isLoading }">
+        {{ isLoading ? '登录中...' : '登入' }}
+      </a>
     </div>
     <div class="register">
       <h2>注册账号</h2>

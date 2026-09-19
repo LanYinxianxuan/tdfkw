@@ -14,7 +14,7 @@ const userStore = useUserStore()
     <div class="nav">
       <ul>
         <li>
-          <a href="/docs/index.md" target="_blank" rel="noopener noreferrer">
+          <a href="https://docs.tangdoufangkuaiwu.top" target="_blank" rel="noopener noreferrer">
             <svg t="1748073854834" class="icon" viewBox="0 0 1024 1024" width="15" height="15">
               <path
                 d="M537.152 414.72h-288.64a29.44 29.44 0 0 1-26.24-30.72 29.44 29.44 0 0 1 26.24-32h288.64a29.44 29.44 0 0 1 26.24 32 29.44 29.44 0 0 1-26.24 30.72z m209.92 165.76h-498.56a32.64 32.64 0 0 1 0-64h498.56a32.64 32.64 0 0 1 0 64z m0 165.76h-498.56a32.64 32.64 0 0 1 0-64h498.56a32.64 32.64 0 0 1 0 64z"

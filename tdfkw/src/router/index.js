@@ -35,13 +35,22 @@ const router = createRouter({
         },
         {
           path: 'userdata',
-          name: 'userdata',
-          component: () => import('../views/UserDateView.vue'),
+          redirect: '/dashboard',
         },
         {
           path: 'files',
           name: 'files',
           component: () => import('../views/FilesView.vue'),
+        },
+        {
+          path: 'server',
+          name: 'server',
+          component: () => import('../views/ServerStatusView.vue'),
+        },
+        {
+          path: 'projects',
+          name: 'projects',
+          component: () => import('../views/ProjectsView.vue'),
         },
       ],
     },
