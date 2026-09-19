@@ -54,6 +54,8 @@
 
 .hero button:hover {
   background: var(--color-accent-hover);
+  box-shadow: var(--animation-shadow-hover);
+  transform: var(--animation-float-hover);
 }
 
 .hero button:active {

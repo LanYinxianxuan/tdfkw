@@ -71,6 +71,11 @@ nav {
   padding: 0 2rem;
   height: 60px;
   background: var(--color-bg, #ffffff);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 img {
