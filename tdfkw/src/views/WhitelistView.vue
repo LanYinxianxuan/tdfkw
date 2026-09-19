@@ -4,9 +4,11 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import CryptoJS from 'crypto-js'
 import { request } from '@/utils/request'
+import { useToast } from '@/utils/toast.js'
 import AppNav from '../components/NAV.vue'
 
 const route = useRoute()
+const toast = useToast()
 const router = useRouter()
 const userStore = useUserStore()
 const code = ref('')
@@ -28,17 +30,17 @@ onMounted(() => {
 
 const sendCode = async () => {
   if (!email.value) {
-    alert('请输入邮箱地址')
+    toast.error('请输入邮箱地址')
     return
   }
   if (!qq.value) {
-    alert('请输入QQ号')
+    toast.error('请输入QQ号')
     return
   }
 
   isLoading.value = true
   try {
-    const data = await request('/api/send-otp', {
+    const { data } = await request('/api/send-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -47,9 +49,8 @@ const sendCode = async () => {
       }),
     })
 
-    if (data.valid) {
-      alert('✓ 验证码已发送到您的邮箱，请查收（有效期10分钟）')
-      // 开启60秒倒计时
+    if (data.success) {
+      toast.success('验证码已发送，请查收（有效期10分钟）')
       countdown.value = 60
       const timer = setInterval(() => {
         countdown.value--
@@ -58,11 +59,11 @@ const sendCode = async () => {
         }
       }, 1000)
     } else {
-      alert('❌ ' + (data.message || '验证码发送失败，请重试'))
+      toast.error(data.error || '验证码发送失败，请重试')
     }
   } catch (error) {
     console.error('Error sending OTP:', error)
-    alert('❌ 网络错误，请重试')
+    toast.error('网络错误，请重试')
   } finally {
     isLoading.value = false
   }
@@ -70,30 +71,30 @@ const sendCode = async () => {
 
 const checkCodeARegister = async () => {
   if (!username.value) {
-    alert('请输入用户名')
+    toast.error('请输入用户名')
     return
   }
   if (!qq.value) {
-    alert('请输入QQ号')
+    toast.error('请输入QQ号')
     return
   }
   if (!email.value) {
-    alert('请输入邮箱')
+    toast.error('请输入邮箱')
     return
   }
   if (!otpCode.value) {
-    alert('请输入验证码')
+    toast.error('请输入验证码')
     return
   }
   if (!password.value) {
-    alert('请输入密码')
+    toast.error('请输入密码')
     return
   }
 
   isLoading.value = true
   try {
     const hashPassword = CryptoJS.SHA256(password.value).toString()
-    const data = await request('/api/check-otp', {
+    const { data } = await request('/api/check-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -106,16 +107,16 @@ const checkCodeARegister = async () => {
       }),
     })
 
-    if (data.valid && data.user) {
-      userStore.setUser(data.user)
-      alert('✓ 注册成功！')
-      router.push(`/dashboard?userid=${data.user.id}`)
+    if (data.success) {
+      userStore.setUser(data.data.user, data.data.token)
+      toast.success('注册成功！')
+      router.push(`/dashboard?userid=${data.data.user.id}`)
     } else {
-      alert('❌ ' + (data.message || '验证码错误或已过期，请重试'))
+      toast.error(data.error || '验证码错误或已过期，请重试')
     }
   } catch (error) {
     console.error('Error checking OTP:', error)
-    alert('❌ 网络错误，请重试')
+    toast.error('网络错误，请重试')
   } finally {
     isLoading.value = false
   }

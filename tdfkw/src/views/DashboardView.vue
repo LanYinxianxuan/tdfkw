@@ -17,31 +17,34 @@ onMounted(() => {
 
 <template>
   <AppNav />
-  <div class="app">
-    <div class="sec_nav">
+  <div class="dashboard-layout">
+    <aside class="sidebar-col">
       <SecNav />
-    </div>
-
-    <main>
+    </aside>
+    <main class="main-col">
       <router-view />
     </main>
   </div>
 </template>
 
 <style scoped>
-.app {
+.dashboard-layout {
   display: flex;
   align-items: stretch;
-}
-
-.sec_nav {
-  width: 20%;
   min-height: calc(100vh - 60px);
-  border-right: 1px solid var(--color-border);
 }
 
-main {
+.sidebar-col {
+  width: 180px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.main-col {
   flex: 1;
-  padding: var(--space-md);
+  min-width: 0;
+  padding: var(--space-lg);
+  background: var(--color-bg-secondary);
 }
 </style>
