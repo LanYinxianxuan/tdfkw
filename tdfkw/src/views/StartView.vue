@@ -100,16 +100,22 @@ const login = async () => {
   background: var(--color-accent);
   color: var(--color-bg);
   text-decoration: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg  );
   margin-top: 1rem;
   font-size: 0.95rem;
   font-weight: 500;
   transition: background 0.2s;
 }
 
-.logIn a:hover,
-.register a:hover,
-.login-btn:hover {
+.register a:hover
+{
   background: var(--color-accent-hover);
+}
+
+.login-btn.register:hover {
+  pointer-events: none;
+  opacity: 0.6;
+  background: var(--color-accent-hover);
+  box-shadow: var(--animation-shadow-hover);
 }
 </style>

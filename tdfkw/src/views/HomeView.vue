@@ -51,11 +51,23 @@
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
 }
+@keyframes amplify
+{
+    from {padding: 0.8rem 2.5rem; font-size: 1rem;}
+    to {padding: 1.0rem 2.7rem; font-size: 1.2rem;}
+}
+ 
+@-webkit-keyframes amplify
+{
+    from {padding: 0.8rem 2.5rem; font-size: 1rem;}
+    to {padding: 1.0rem 2.7rem; font-size: 1.2rem;}
+}
 
 .hero button:hover {
   background: var(--color-accent-hover);
   box-shadow: var(--animation-shadow-hover);
-  transform: var(--animation-float-hover);
+  animation: amplify 0.3s ease forwards;
+  -webkit-animation: amplify 0.3s ease forwards;
 }
 
 .hero button:active {
